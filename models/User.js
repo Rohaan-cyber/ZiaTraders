@@ -1,4 +1,4 @@
-﻿const validator = require("validator")
+const validator = require("validator")
 const bcrypt = require("bcryptjs")
 const { getDb } = require("../db")
 let maxValue1
@@ -26,9 +26,6 @@ let srNo = 1;
 
 
 User.prototype.cleanUp = async function () {
-    if (typeof this.data.username != "string") this.data.username = ""
-    if (typeof this.data.password != "string") this.data.password = ""
-
    await maxNumber()
 
     this.data = {
