@@ -113,11 +113,11 @@
     $('#CustomerName').val(custName);   // send name in form
 
     if (custPayDue > 0) {
-    $('#paymentType').text('Credit');
+    $('#paymentType').text('Jama');
     $('#paymentTypeInput').val('Credit');  // this will go in req.body
 } else {
     $('#custPayDue').val(custPayDue * (-1));
-    $('#paymentType').text('Debit');
+    $('#paymentType').text('Banam');
     $('#paymentTypeInput').val('Debit');   // this will go in req.body
 }
 
@@ -126,3 +126,4 @@
   </script>
 </body>
 </html>
+
