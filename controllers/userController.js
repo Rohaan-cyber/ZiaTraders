@@ -1,4 +1,4 @@
-﻿const User = require("../models/User");
+const User = require("../models/User");
 
 exports.home = function (req, res) {
     // If user is already logged in, redirect to dashboard
@@ -12,16 +12,15 @@ exports.register = function (req, res) {
     let user = new User(req.body);
     user.register()
         .then(() => {
-            req.flash('success_msg', '✅ Registration successful! You can now log in.');
-            res.redirect('/dashboard');
+            req.flash('success_msg', 'Registration successful! You can now log in');
+            res.redirect('/'); // redirect to login/signup page
         })
         .catch((errors) => {
-            errors.forEach(err => {
-                req.flash('register_error', err);
-            });
-            res.redirect('/');
+            errors.forEach(err => req.flash('register_error', err));
+            res.redirect('/'); // redirect back to show errors
         });
 };
+
 
 exports.login = function (req, res) {
     let user = new User(req.body);
