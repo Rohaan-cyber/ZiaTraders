@@ -1,4 +1,4 @@
-﻿const express = require('express')
+const express = require('express')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const flash = require('connect-flash')
@@ -17,10 +17,14 @@ app.set("view engine", "ejs")
 
 // Sessions (stored in MongoDB)
 app.use(session({
+    name: 'connect.sid', // keep default name
     secret: process.env.SESSIONSECRET,
-    store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
-    resave: false,
-    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.CONNECTIONSTRING,
+        touchAfter: 24 * 3600 // only update session once per day if unchanged
+    }),
+    resave: false,             // do not save session if unmodified
+    saveUninitialized: false,  // only save if something is stored
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }))
 
@@ -28,12 +32,14 @@ app.use(session({
 app.use(flash())
 
 // Make flash messages available in all templates
+// Make flash messages available in all templates
 app.use((req, res, next) => {
-    res.locals.login_error = req.flash('login_error') || []
-    res.locals.register_error = req.flash('register_error') || []
-    res.locals.success_msg = req.flash('success_msg') || []
-    next()
-})
+    res.locals.success_msg = req.flash('success_msg') || [];
+    res.locals.register_error = req.flash('register_error') || [];
+    res.locals.login_error = req.flash('login_error') || [];
+    next();
+});
+
 
 // Router
 app.use("/", router)
