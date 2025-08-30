@@ -32,7 +32,7 @@ exports.login = function (req, res) {
                 res.redirect("/dashboard"); // <- redirect to dashboard
             });
         })
-        .catch(err => {
+        .catch((err) => {
             req.flash('login_error', "Invalid username / password");
             res.redirect("/");  // login page
         });
