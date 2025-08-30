@@ -69,7 +69,7 @@ User.prototype.validate = function () {
 
 User.prototype.register = function () {
     return new Promise(async (resolve, reject) => {
-        this.cleanUp()
+     await    this.cleanUp()
         await this.validate()
 
         if (!this.errors.length) {
@@ -88,7 +88,7 @@ User.prototype.register = function () {
 // model method for login check
 User.prototype.login = function () {
     return new Promise(async (resolve, reject) => {
-        this.cleanUp()
+       await  this.cleanUp()
         try {
             const user = await usersCollection().findOne({ username: this.data.username })
             if (user && await bcrypt.compare(this.data.password, user.password)) {
