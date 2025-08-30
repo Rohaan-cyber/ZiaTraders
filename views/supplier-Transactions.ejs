@@ -28,9 +28,9 @@
      
 
      
-        <label for="supplierDropdown" class="form-label">Supplier Name:</label>
+        <label for="supplierDropdown" class="form-label">Frokht Kuninda:</label>
        <select id="supplierDropdown" name="supplierDropdown">
-  <option value="">Select a customer</option>
+  <option value="">Select a Supplier</option>
   <% suppliers.forEach(function(supp) { %>
     <option value="<%= supp._id %>" data-due="<%= supp.supPayDue %>" data-name="<%= supp.supName %>">
       <%= supp.supName %>
@@ -48,7 +48,7 @@
          <th>Debit</th>
          <th>Credit</th>
          <th>Details</th>
-         <th>Remaining</th>
+         <th>Baqaya</th>
         </tr>
       </thead>
 <tbody>
@@ -98,3 +98,4 @@ $('#supplierDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
