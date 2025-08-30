@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customers | Khata Clone</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="/front-endBrowser.js"></script>
+  <style>
+    body { min-height: 100vh; overflow-x: hidden; background-color: #b6b2b2}
+
+    .sidebar { min-width: 220px; max-width: 220px; background-color: #343a40; min-height: 100vh; color: white; }
+    .sidebar a { color: white; text-decoration: none; }
+    .sidebar a.active { background-color: #495057; }
+    .sidebar a:hover { background-color: #495057; }
+    .content { margin-left: 220px; padding: 20px; }
+  </style>
+</head>
+<body>
+  <%- include('includes/sidebar', { user: user, activePage: 'customers' }) %>
+  <div class="content">
+    <%- include('includes/header', { pageTitle: 'Customers', user: user }) %>
+    <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
+
+    <div class="row mb-4">
+
+    <div class="container">
+   
+    <form id="CustomerForm" class="form form-striped" action="/create-customer" method="POST">
+         <div class="row">
+        <div class="col">
+    <label>Customer Name &nbsp; </label><input name="custName" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+      </div>
+
+ <div class="col">
+      <label>Phone Number &nbsp;</label><input name="custPhoneNum" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+      </div>
+          </div><br>
+
+            <div class="row">
+     <div class="col">
+      <label>Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="custArea" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline"><br><br>
+    
+        </div>
+
+      
+    
+      <div class="col">
+      <label>Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="custProvince" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+     </div>
+     </div>
+    <br><button class="btn btn-success btn-sm">Create Customer</button>
+
+   </form><br><br>
+
+
+   </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            Customer List
+          </div>
+          <div class="card-body p-0">
+            <table id="CustomerTable" class="table table-striped mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>id</th>
+                  <th>Name</th>
+                   <th>Payment Due</th>
+                   <th>Phone</th>
+                   <th>Area</th>
+                   <th>Province</th>
+                </tr>
+              </thead>
+              <tbody>
+               <% if (customers.length > 0) { %>
+      <% customers.forEach((cust, index) => { %>
+        <tr>
+          <td><%= cust.customerId %></td>
+          <td><%= cust.custName %></td>
+          <td><%= cust.custPayDue || '-' %></td>
+          <td><%= cust.custPhoneNum || '-' %></td>
+          <td><%= cust.custArea || '-' %></td>
+           <td><%= cust.custProvince || '-' %></td>
+      
+         <td>
+    <form action="/customers/delete/<%= cust._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this customer?')">
+      <button class="btn btn-danger btn-sm">Delete</button>
+    </form>
+      </td>
+       
+        </tr>
+      <% }) %>
+    <% } else { %>
+      <tr>
+        <td colspan="7" class="text-center">No customers found</td>
+      </tr>
+    <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+<script>
+const form = document.getElementById('CustomerForm');
+const tableBody = document.querySelector('#CustomerTable tbody');
+
+form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // prevent page refresh
+
+    // Collect form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+        // Send POST request to backend
+        const res = await fetch('/create-customer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const resData = await res.json();
+
+        if (resData.success) {
+            const cust = resData.customer; // DB-assigned customer object
+
+            // Create a new row
+            const newRow = document.createElement('tr');
+           newRow.innerHTML = `
+    <td>${cust.customerId ?? '-'}</td>
+    <td>${cust.custName ?? '-'}</td>
+    <td>${cust.custPayDue ?? '-'}</td>
+    <td>${cust.custPhoneNum ?? '-'}</td>
+    <td>${cust.custArea ?? '-'}</td>
+    <td>${cust.custProvince ?? '-'}</td>
+    <td>
+       <em>Saved</em>
+    </td>
+`;
+
+            tableBody.appendChild(newRow); // append to table
+
+            form.reset(); // clear the form fields
+        } else {
+            // Display validation errors from backend
+            alert("Failed to add customer: " + (resData.errors?.join(", ") || 'Unknown error'));
+        }
+    } catch (err) {
+        console.error("Error adding customer:", err);
+        alert("Failed to add customer due to network or server error.");
+    }
+});
+</script>
+
+
+
+</body>
+</html>

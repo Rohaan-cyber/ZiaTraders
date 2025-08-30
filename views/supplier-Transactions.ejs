@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transactions | Khata Clone</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+   <style>
+    body { min-height: 100vh; overflow-x: hidden; }
+    .sidebar { min-width: 220px; max-width: 220px; background-color: #343a40; min-height: 100vh; color: white; }
+    .sidebar a { color: white; text-decoration: none; }
+    .sidebar a.active { background-color: #495057; }
+    .sidebar a:hover { background-color: #495057; }
+    .content { margin-left: 220px; padding: 20px; }
+  </style>
+</head>
+<body>
+  <%- include('includes/sidebar', { activePage: 'transactions' }) %>
+  <div class="content">
+    <%- include('includes/header', { pageTitle: 'Transactions', user: user }) %>
+    <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
+
+
+    <form action="/transaction-supplier" method="POST">
+     
+
+     
+        <label for="supplierDropdown" class="form-label">Supplier Name:</label>
+       <select id="supplierDropdown" name="supplierDropdown">
+  <option value="">Select a customer</option>
+  <% suppliers.forEach(function(supp) { %>
+    <option value="<%= supp._id %>" data-due="<%= supp.supPayDue %>" data-name="<%= supp.supName %>">
+      <%= supp.supName %>
+    </option>
+  <% }); %>
+</select>
+<input type="text" name="SupplierName2" id="SupplierName2" readonly>
+<button class="btn btn-primary">Ledger</button>
+
+ <table class="table table-striped">
+      <thead>
+        <tr>
+         <th>Date</th>
+         <th>Bill Number</th>
+         <th>Debit</th>
+         <th>Credit</th>
+         <th>Details</th>
+         <th>Remaining</th>
+        </tr>
+      </thead>
+<tbody>
+  <% if (supplierTransactions && supplierTransactions) { %>
+    <% supplierTransactions.forEach(txn => { %>
+      <tr>
+      <script>
+         document.getElementById("SupplierName2").value = "<%= txn.SupplierName %>"
+        </script>
+        <td><%= txn.Date.toLocaleDateString() %></td>
+        <td><%= txn.BillNumber %></td>
+        <td><%= txn.Debit %></td>
+        <td><%= txn.credit %></td>
+        <td><%= txn.Details %></td>
+        <td><%= txn.Remaining %></td>
+      </tr>
+    <% }) %>
+  <% } else { %>
+    <tr>
+      <td colspan="6">No transactions found</td>
+    </tr>
+  <% } %>
+</tbody>
+
+    </table>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $('#supplierDropdown').select2({
+      placeholder: "Select a customer",
+      tags: false,
+      allowClear: true,
+      dropdownParent: $('body')
+    });
+
+$('#supplierDropdown').on('change', function() {
+    const selectedOption = $(this).find('option:selected');
+    const custName = selectedOption.data('name');
+
+    $('#SupplierName2').val(custName);
+});
+
+
+  </script>
+</body>
+</html>

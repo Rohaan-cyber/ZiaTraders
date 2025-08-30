@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transactions | Khata Clone</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <style>
+    body { min-height: 100vh; overflow-x: hidden; }
+    .sidebar { min-width: 220px; max-width: 220px; background-color: #343a40; min-height: 100vh; color: white; }
+    .sidebar a { color: white; text-decoration: none; }
+    .sidebar a.active { background-color: #495057; }
+    .sidebar a:hover { background-color: #495057; }
+    .content { margin-left: 220px; padding: 20px; }
+    .select2-container { z-index: 2000 !important; }
+    .select2-dropdown { z-index: 2001 !important; }
+  </style>
+</head>
+<body>
+ <%- include('includes/sidebar', { user: user, activePage: 'payments' }) %>
+
+ <div class="content">
+    <form action="/createSuppLedger" method="POST">
+      <div class="mb-3">
+        <label class="form-label">Date:</label>
+        <!-- add name="Date" -->
+        <input id="Date" name="Date" style="width: 200px; display: inline" 
+               type="text" class="form-control" 
+               value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>"  
+               readonly>
+      </div>
+
+      <div class="mb-3">
+        <label for="supplierDropdown" class="form-label">Supplier Name:</label>
+       <select id="supplierDropdown" name="supplierDropdown">
+  <option value="">Select a Supplier</option>
+  <% suppliers.forEach(function(supp) { %>
+    <option value="<%= supp._id %>" data-due="<%= supp.supPayDue %>" data-name="<%= supp.supName %>">
+      <%= supp.supName %>
+    </option>
+  <% }); %>
+</select>
+<input type="hidden" name="CustomerName" id="CustomerName">
+
+
+        <label>Payment Due: </label> 
+        <!-- add name="custPayDue" -->
+        <input id="custPayDue" name="custPayDue" style="width: 200px; display: inline" 
+               type="text" class="form-control" value="" readonly>
+
+        <span id="paymentType"></span>
+        <input type="hidden" id="paymentTypeInput" name="paymentType">
+
+    
+        <br><br>
+        <label>Bill Number: &nbsp;</label> 
+        <!-- add name="BillNumber" -->
+        <input id="BillNumber" name="BillNumber" style="width: 100px; display: inline" type="text" class="form-control"><br><br>
+
+        <!-- add name="DebitCredit" -->
+        <select id="DebitCredit" name="DebitCredit" class="form-select" style="width: 120px; display: inline">
+          <option  value="Debit">Debit</option>
+          <option value="Credit">Credit</option>
+        </select>
+
+        <!-- add name="DebitCreditVal" -->
+        <input id="DebitCreditVal" name="DebitCreditVal" class="form-control" style="width:200px; display:inline" type="text"><br><br>
+        
+        <label>Details</label> 
+        <!-- add name="Details" -->
+        <input id="Details" name="Details" type="text" class="form-control"><br><br>
+
+        <button class="btn btn-success btn-sm">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $('#supplierDropdown').select2({
+      placeholder: "Select a Supplier",
+      tags: false,
+      allowClear: true,
+      dropdownParent: $('body')
+    });
+
+    const supp = <%- JSON.stringify(suppliers) %>;
+
+    // When the selection changes
+ 
+
+    $("#DebitCreditVal").on("input", function() {
+      let val = $(this).val();
+      if (!/^\d*\.?\d*$/.test(val)) {
+          $(this).val(val.slice(0, -1));
+      }
+    });
+
+    $("#BillNumber").on("input", function() {
+      $(this).val($(this).val().replace(/[^0-9]/g, '')); // only digits
+    });
+
+    $('#supplierDropdown').on('change', function() {
+    const selectedOption = $(this).find('option:selected');
+    const custPayDue = parseFloat(selectedOption.data('due')) || 0;
+    const custName = selectedOption.data('name');
+
+    $('#custPayDue').val(custPayDue);
+    $('#CustomerName').val(custName);   // send name in form
+
+    if (custPayDue > 0) {
+    $('#paymentType').text('Credit');
+    $('#paymentTypeInput').val('Credit');  // this will go in req.body
+} else {
+    $('#custPayDue').val(custPayDue * (-1));
+    $('#paymentType').text('Debit');
+    $('#paymentTypeInput').val('Debit');   // this will go in req.body
+}
+
+});
+
+  </script>
+</body>
+</html>
