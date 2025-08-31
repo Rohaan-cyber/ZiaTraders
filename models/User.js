@@ -50,10 +50,17 @@ User.prototype.validate = function () {
             this.errors.push("Password cannot exceed 50 characters.")
         }
         if (this.data.username.length > 0 && this.data.username.length < 3) {
-            this.errors.push("Username must be at least 4 characters.")
+            this.errors.push("Username must be at least 3 characters.")
         }
         if (this.data.username.length > 30) {
-            this.errors.push("Username cannot exceed 35 characters.")
+            this.errors.push("Username cannot exceed 30 characters.")
+        }
+
+        
+        if (!this.data.isAdmin) {
+            this.errors.push("Please select if user is Admin or not.");
+        } else if (this.data.isAdmin !== "yes" && this.data.isAdmin !== "no") {
+            this.errors.push("Invalid value for Admin selection.");
         }
 
         // Check uniqueness only if inputs are valid
@@ -103,3 +110,4 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
