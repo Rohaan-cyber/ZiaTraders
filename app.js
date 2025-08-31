@@ -25,7 +25,7 @@ app.use(session({
     }),
     resave: false,             // do not save session if unmodified
     saveUninitialized: false,  // only save if something is stored
-    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
+    cookie: { maxAge: 1000 * 60 * 60 } // 1 hour
 }))
 
 // Flash messages (must come AFTER session)
@@ -65,3 +65,4 @@ connectToDb()
     .catch(err => console.error("❌ DB connection failed:", err))
 
 module.exports = app
+
