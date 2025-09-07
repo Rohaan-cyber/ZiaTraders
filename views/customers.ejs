@@ -74,9 +74,18 @@
                <% if (customers.length > 0) { %>
       <% customers.forEach((cust, index) => { %>
         <tr>
+         <tr>
           <td><%= cust.customerId %></td>
           <td><%= cust.custName %></td>
-          <td><%= cust.custPayDue || '-' %></td>
+
+          <td>
+          <% if (cust.custPayDue > 0) { %>
+                   <%= cust.custPayDue || 0 %>  Jama
+         <%  } else { %>
+       <%= cust.custPayDue * (-1) || 0 %>  Banam
+        <%  } %>
+        </td>
+
           <td><%= cust.custPhoneNum || '-' %></td>
           <td><%= cust.custArea || '-' %></td>
            <td><%= cust.custProvince || '-' %></td>
@@ -159,5 +168,6 @@ form.addEventListener('submit', async function(e) {
 
 </body>
 </html>
+
 
 
