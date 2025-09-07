@@ -9,6 +9,10 @@ router.get("/", userController.home);
 // Dashboard (Home route)
 router.get("/dashboard", requireLogin, sidebarController.Dashboard);
 
+// purchase Order
+router.get('/purchase-order-page', requireLogin, sidebarController.PurchaseOrder)
+router.post('/Purchase-Order', requireLogin, sidebarController.CreatePurchaseOrder)
+
 
 // delete customer
 router.post("/customers/delete/:id", requireLogin, sidebarController.deleteCustomer)
@@ -47,3 +51,4 @@ router.post("/logout", userController.logout);
 
 
 module.exports = router;
+
