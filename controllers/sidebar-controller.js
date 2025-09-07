@@ -3,6 +3,7 @@ const Customer = require('../models/Customers')
 const Supplier = require('../models/Suppliers')
 const { ObjectId } = require('mongodb').ObjectId
 const SuppLedger = require('../models/Supplier-Payment')
+let PurchaseOrder = require('../models/Purchase-Order')
 
 let customers
 
@@ -327,3 +328,34 @@ exports.createSuppTransaction = async function (req, res) {
         res.send("Nothing!")
     }
 }
+
+
+exports.PurchaseOrder = async function (req, res) {
+    let supplier = new Supplier({}, req.session.user.id)  // <-- pass user id
+    let suppliers = await supplier.findSupplier()  // fetch only this user's customers
+    let purchaseOrder = new PurchaseOrder()
+    let orderNo = await purchaseOrder.GetorderNo()
+    res.render('purchase-order', {
+        user: req.session.user,
+        success_msg: req.flash("success_msg"),
+        error_msg: req.flash("error_msg"),
+        activePage: "Purchase-Order",
+        suppliers,
+        orderNo,
+        TodayDate: new Date()
+    })
+}
+
+exports.CreatePurchaseOrder = async function (req, res) {
+    let purchaseOrder = new PurchaseOrder(req.body);
+    try {
+        let PurChaseOrder = await purchaseOrder.createpurchaseOrder();
+        req.flash("success_msg", PurChaseOrder);
+        res.redirect("/purchase-order-page");  // go back to the form page
+    } catch (errors) {
+        // errors could be array of strings
+        req.flash("error_msg", Array.isArray(errors) ? errors.join(", ") : errors);
+        res.redirect("/purchase-order-page");  // back to form
+    }
+};
+
