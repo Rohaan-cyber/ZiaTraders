@@ -76,7 +76,15 @@
         <tr>
           <td><%= sup.supplierId || '-' %></td>
           <td><%= sup.supName %></td>
-          <td><%= sup.supPayDue || '-' %></td>
+
+          <td>
+          <% if (sup.supPayDue > 0) { %>
+          <%= sup.supPayDue || 0 %>  Jama
+         <% } else { %>
+           <%= sup.supPayDue * (-1) || 0 %>  Banam
+         <% } %>
+          </td>
+
           <td><%= sup.supPhoneNum || '-' %></td>
           <td><%= sup.supArea || '-' %></td>
            <td><%= sup.supProvince || '-' %></td>
@@ -150,5 +158,6 @@ fetch('/create-supplier', {
 
 </body>
 </html>
+
 
 
