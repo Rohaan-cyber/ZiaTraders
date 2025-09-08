@@ -59,11 +59,11 @@
          document.getElementById("CustomerName2").value = "<%= txn.CustomerName %>"
         </script>
         <td><%= txn.Date.toLocaleDateString() %></td>
-        <td><%= txn.BillNumber %></td>
-        <td><%= txn.Debit %></td>
-        <td><%= txn.credit %></td>
-        <td><%= txn.Details %></td>
-        <td><%= txn.Remaining %></td>
+        <td><%= txn.BillNumber || '-' %></td>
+        <td><%= txn.Debit || 0 %></td>
+        <td><%= txn.credit || 0 %></td>
+        <td><%= txn.Details || No Details %></td>
+        <td><%= txn.Remaining || 0 %></td>
       </tr>
     <% }) %>
   <% } else { %>
@@ -98,6 +98,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
