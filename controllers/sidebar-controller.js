@@ -366,7 +366,7 @@ exports.CreateSaleOrder = async function (req, res) {
     let saleOrder = new SaleOrder(req.body);
     try {
         let SALEOrder = await saleOrder.createSaleOrder();
-        req.flash("success_msg", SALEORDER);
+        req.flash("success_msg", SALEOrder);
         res.redirect("/sales-order-page");  // go back to the form page
     } catch (errors) {
         // errors could be array of strings
@@ -388,6 +388,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
