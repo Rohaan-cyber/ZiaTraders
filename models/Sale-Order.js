@@ -111,7 +111,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                 await SupplierCollection().findOneAndUpdate({ custName: supplierName }, { $set: { custPayDue: total } })
                 await supplierLedgerCollection().insertOne({
                     Date: new Date(),
-                    customerName: supplierName,
+                    CustomerName: supplierName,
                     BillNumber: this.data.billNo,
                     Debit: total * (-1),
                     Credit: 0,
