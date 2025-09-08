@@ -35,7 +35,7 @@ async function getSupplierNameById(supplierId) {
     }
 
     const supplier = await getDb()
-        .collection("suppliers")
+        .collection("customers")
         .findOne({ _id: new ObjectId(supplierId) });
 
     return supplier ? supplier.supName : "";
