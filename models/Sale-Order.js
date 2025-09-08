@@ -105,11 +105,11 @@ SaleOrder.prototype.createSaleOrder = function () {
                 };
 
 
-                let supplier = await SupplierCollection().findOne({ supName: supplierName })
-                let suppPaydue = supplier.supPayDue
-                let total = suppPaydue - this.data.kulSafiRaqm
+                let customer = await SupplierCollection().findOne({ custName: supplierName })
+                let custPaydue = supplier.custPayDue
+                let total = custPaydue - this.data.kulSafiRaqm
                 await SupplierCollection().findOneAndUpdate({ supName: supplierName }, { $set: { supPayDue: total } })
-                supplierLedgerCollection().insertOne({
+                await supplierLedgerCollection().insertOne({
                     Date: new Date(),
                     SupplierName: supplierName,
                     BillNumber: this.data.billNo,
