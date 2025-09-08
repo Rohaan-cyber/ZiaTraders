@@ -52,9 +52,9 @@
     </style>
 </head>
 <body>
-  <%- include('includes/sidebar', { activePage: 'purchase-order' }) %>
+  <%- include('includes/sidebar', { activePage: 'sale-order' }) %>
   <div class="content">
-    <%- include('includes/header', { pageTitle: 'Purchase Order', user: user }) %>
+    <%- include('includes/header', { pageTitle: 'Sales Order', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
     <% if (success_msg && success_msg.length) { %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -76,7 +76,7 @@
                 🛒 Ghala Mandi Purchase Order
             </div>
             <div class="card-body">
-                <form id="PurchaseOrder" action="/Purchase-Order" method="POST">
+                <form id="PurchaseOrder" action="/Sale-Order" method="POST">
                     <!-- Buyer & Supplier Info -->
                     <div class="row mb-3">
                         <div class="col-md-6">
