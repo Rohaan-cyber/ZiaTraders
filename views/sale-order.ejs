@@ -1,1 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Purchase Order</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar { min-width: 220px; max-width: 220px; background-color: #343a40; min-height: 100vh; color: white; }
+    .sidebar a { color: white; text-decoration: none; }
+    .sidebar a.active { background-color: #495057; }
+    .sidebar a:hover { background-color: #495057; }
+    .content { margin-left: 220px; padding: 20px; }
 
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #198754, #20c997);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .btn-custom {
+            background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+            .btn-custom:hover {
+                background: linear-gradient(45deg, #0b5ed7, #0aa2c0);
+            }
+    </style>
+</head>
+<body>
+  <%- include('includes/sidebar', { activePage: 'purchase-order' }) %>
+  <div class="content">
+    <%- include('includes/header', { pageTitle: 'Purchase Order', user: user }) %>
+    <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
+    <% if (success_msg && success_msg.length) { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= success_msg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<% if (error_msg && error_msg.length) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= error_msg %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+    <div class="container my-5">
+        <div class="card">
+            <div class="card-header">
+                🛒 Ghala Mandi Purchase Order
+            </div>
+            <div class="card-body">
+                <form id="PurchaseOrder" action="/Purchase-Order" method="POST">
+                    <!-- Buyer & Supplier Info -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Date (تاریخ)</label>
+                            <input style="background-color: lightgray" class="form-control" name="orderDate" value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly >
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Supplier Name (سپلائر)</label><br>
+                             <select id="customerDropdown" name="customerDropdown" class="form-select">
+  <option value="">Select a supplier</option>
+  <% customers.forEach(function(cust) { %>
+    <option value="<%= cust._id %>" data-name="<%= cust.custName %>">
+      <%=  cust.custName %>
+    </option>
+  <% }); %>
+</select>
+<input type="hidden" name="CustomerName" id="CustomerName">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Truck Number</label>
+                            <input type="text" class="form-control" id="TruckNumber" name="truckNumber" onblur="Validate('TruckNumberErr', 'TruckNumber')">
+                            <span id="TruckNumberErr"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Order Number (آرڈر نمبر)</label>
+                            <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo" value="<%= orderNo %>" onblur="Validate('OrderNumberErr', 'OrderNumber')" readonly>
+                            <span id="OrderNumberErr"></span>
+                        </div>
+                                                <div class="col-md-3">
+                            <label class="form-label">Bill Number</label>
+                            <input  type="text" class="form-control" name="billNo">
+                        </div>
+                    </div>
+
+                    <!-- Commodity Details -->
+                    <h5 class="mt-4 mb-3 text-success">🌾 Commodity Details</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Commodity (اجناس)</label>
+                            <input style="background-color: lightgray" type="text" class="form-control" name="commodity" value="Mungi" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Computer Kanta Weight (KG)</label>
+                            <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight" onblur="Validate('ConKanWeightErr', 'conkanWeight')">
+                            <span id="ConKanWeightErr"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Tadad</label>
+                            <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Bara kanta kaat</label>
+                            <input  type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat" onblur="Validate('BaraKanKaatErr', 'bKANKAAT')">
+                            <span id="BaraKanKaatErr"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Bar dana kaat</label>
+                            <input type="number" class="form-control" value="0" id="bDanaKaat" name="bdanaKaat" onblur="Validate('BaraDanaKaatErr', 'bDanaKaat')">
+                            <span id="BaraDanaKaatErr"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Kam wazan jurmana</label>
+                            <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="kamWazJarmana" onblur="Validate('KamWzanJurmanErr', 'KamWazanJurmana')">
+                            <span id="KamWzanJurmanErr"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Rate per Unit (ریٹ فی یونٹ)</label>
+                            <input type="number" class="form-control" id="rate" name="rate" placeholder="e.g. 2500" onblur="Validate('RateErr', 'rate')">
+                            <span id="RateErr"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Kamee Rate</label>
+                            <input type="number" class="form-control" id="KameeRate" name="kameeRate" value="0" onblur="Validate('KameeRateErr', 'KameeRate')">
+                            <span id="KameeRateErr"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kul Damage</label>
+                            <input type="number" class="form-control" placeholder="0" value="10" id="KulDMG" name="kulDmg" onblur="Validate('KulDMGErr', 'KulDMG')">
+                            <span id="KulDMGErr"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Safi Damage</label>
+                            <input type="number" class="form-control" placeholder="0" id="SafiDMG" name="safiDmg" onblur="Validate('SafiDMGErr', 'SafiDMG')">
+                            <span id="SafiDMGErr"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kul Kachar</label>
+                            <input type="number" value="1" class="form-control" placeholder="0" id="KulKachr" name="kulKachr" onblur="Validate('KulKacharErr', 'KulKachr')">
+                            <span id="KulKacharErr"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Safi Kachar</label>
+                            <input type="number" class="form-control" placeholder="0" id="SafiKachar" name="safiKachar" onblur="Validate('SafiKacharErr', 'SafiKachar')">
+                            <span id="SafiKacharErr"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kul Nami</label>
+                            <input type="number" value="1" class="form-control" placeholder="0" id="KulNami" name="kulNami" onblur="Validate('KulNamiErr', 'KulNami')">
+                            <span id="KulNamiErr"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Safi Nami</label>
+                            <input type="number" class="form-control" placeholder="0" id="SafiNami" name="safiNami" onblur="Validate('SafiNamiErr', 'SafiNami')">
+                            <span id="SafiNamiErr"></span>
+                        </div>
+                    </div>
+                    <hr style="border: solid 5px black">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Manfi Wazan</label>
+                            <input style="background-color: lightgray" type="number" class="form-control" placeholder="0" id="ManfiWazan" name="manfiWazan" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Payment Terms -->
+                    <h5 class="mt-4 mb-3 text-success">💰 Payment Terms</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Safi wazan</label>
+                            <input style="background-color: lightgray" type="number" id="safiWazan" name="safiWazan" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Karaya Kanta</label>
+                            <input type="number" class="form-control" value="0" id="KarayaKanta" name="karayaKanta" onblur="Validate('KarayaKantaErr', 'KarayaKanta')">
+                            <span id="KarayaKantaErr"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Safi Rate</label>
+                            <input style="background-color: lightgray" type="number" id="SafiRate" value="0" name="safiRate" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Munshiana</label>
+                            <input type="number" class="form-control" id="munshiana" name="munshiana" onblur="Validate('MunshianaErr', 'munshiana')">
+                            <span id="MunshianaErr"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kul Raqm</label>
+                            <input style="background-color: lightgray" type="number" value="0" id="KulRaqm" name="kulRaqm" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Mazdoori</label>
+                            <input type="number" class="form-control" name="mazdoori" id="Mazdoori" onblur="Validate('MazdooriErr', 'Mazdoori')">
+                            <span id="MazdooriErr"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Mazdoori Rate</label>
+                            <input type="number" value="10" class="form-control" id="MazdooriRate" name="mazdooriRate" onblur="Validate('MazdooriRateErr', 'MazdooriRate')">
+                            <span id="MazdooriRateErr"></span>
+                        </div>
+                    </div>
+                    <hr style="border: solid 5px black">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Safi Raqm</label>
+                            <input style="background-color: lightgray" type="number" id="SafiRaqm" name="safiRaqm" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Khareed Kuninda Brokeri</label>
+                            <input type="number" id="KharKunindaBRoker" name="KharKunindaBroker" class="form-control" onblur="Validate('KharKuBrokerErr', 'KharKunindaBRoker')">
+                            <span id="KharKuBrokerErr"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Kul Safi Raqm</label>
+                            <input style="background-color: lightgray" type="number" id="KulSafiRaqm" name="kulSafiRaqm" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-custom" >Submit Purchase Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        // Calculations
+        function CALC3() {
+            let MillrComputerweightTxtBx = document.getElementById("conkanWeight")
+            let MillrBaraKantaKatTxtBx = document.getElementById("bKANKAAT")
+            let MillrBagTxtBx = document.getElementById("tadad")
+            let MillrBrokeriTxtBx = document.getElementById("KharKunindaBRoker")
+            let MillrMunshianaTxtBx = document.getElementById("munshiana")
+            let MillrBarDanaKaat = document.getElementById("bDanaKaat")
+            let MillrMazdooriTxtBx = document.getElementById("Mazdoori")
+            let MillrMazdooriRate = document.getElementById("MazdooriRate")
+            let iweight = parseFloat(MillrComputerweightTxtBx.value)
+            let bag = Math.round(iweight / 50)
+            MillrBagTxtBx.value = bag
+            MillrBaraKantaKatTxtBx.value = parseFloat(MillrBagTxtBx.value * 40 / 220)
+            let testroundoff = roundoff(parseFloat(MillrBaraKantaKatTxtBx.value));
+            MillrBaraKantaKatTxtBx.value = testroundoff
+           MillrBarDanaKaat.value = iweight * 0.002273
+            testroundoff = roundoff(parseFloat(MillrBarDanaKaat.value))
+            MillrBarDanaKaat.value = testroundoff
+            MillrBrokeriTxtBx.value = 8 * bag;
+            MillrMunshianaTxtBx.value = 500 * iweight / 11000
+            testroundoff = roundoff(parseFloat(MillrMunshianaTxtBx.value))
+            MillrMunshianaTxtBx.value = testroundoff
+            MillrMazdooriTxtBx.value = parseFloat(MillrMazdooriRate.value) * bag
+            testroundoff = roundoff(MillrMazdooriTxtBx.value)
+            MillrMazdooriTxtBx.value = testroundoff
+            CALC()
+        }
+
+        function CALC() {
+            let MillrComputerweightTxtBx = document.getElementById("conkanWeight")
+            let MillrBaraKantaKatTxtBx = document.getElementById("bKANKAAT")
+            let MillrBagTxtBx = document.getElementById("tadad")
+            let MillrBrokeriTxtBx = document.getElementById("KharKunindaBRoker")
+            let MillrMunshianaTxtBx = document.getElementById("munshiana")
+            let MillrBarDanaKaat = document.getElementById("bDanaKaat")
+            let MillrMazdooriTxtBx = document.getElementById("Mazdoori")
+            let MillrMazdooriRate = document.getElementById("MazdooriRate")
+            let MillrSafiDamage = document.getElementById("SafiDMG")
+            let MillrKulDamage = document.getElementById("KulDMG")
+            let MillrSafiKachr = document.getElementById("SafiKachar")
+            let MillrKulKachr = document.getElementById("KulKachr")
+            let MillrSafiNami = document.getElementById("SafiNami")
+            let MillrKulNami = document.getElementById("KulNami")
+            let MillrManfiWazn = document.getElementById("ManfiWazan")
+            let MillrSafiWazan = document.getElementById("safiWazan")
+            let MillrKamWzanJurmana = document.getElementById("KamWazanJurmana")
+            let MillrRate = document.getElementById("rate")
+            let MillrSafiRate = document.getElementById("SafiRate")
+            let MillrKamiRate = document.getElementById("KameeRate")
+            let MillrRaqm = document.getElementById("KulRaqm")
+            let MillrSafiBill = document.getElementById("SafiRaqm")
+            let MillrComputerCharges = document.getElementById("KarayaKanta")
+            let MillrBaqayaRaqm = document.getElementById("KulSafiRaqm")
+            let iweight = parseFloat(MillrComputerweightTxtBx.value)
+            let bag = Math.round(iweight / 50)
+           
+            if (iweight > 0 && iweight != "") {   
+                MillrSafiDamage.value = (77 / 220) * bag * parseFloat(MillrKulDamage.value)
+                let testroundoff = roundoff(parseFloat(MillrSafiDamage.value))
+                MillrSafiDamage.value = testroundoff
+                MillrSafiKachr.value = (parseFloat(MillrKulKachr.value) * iweight / 100)
+                testroundoff = roundoff(parseFloat(MillrSafiKachr.value))
+                MillrSafiKachr.value = testroundoff
+                MillrSafiNami.value = (parseFloat(MillrKulNami.value) * iweight / 100)
+                testroundoff = roundoff(parseFloat(MillrSafiNami.value))
+                MillrSafiNami.value = testroundoff
+                MillrManfiWazn.value = parseFloat(MillrSafiDamage.value) + parseFloat(MillrSafiKachr.value) + parseFloat(MillrSafiNami.value)
+                MillrSafiWazan.value = iweight - parseFloat(MillrBaraKantaKatTxtBx.value) - parseFloat(MillrBarDanaKaat.value) - parseFloat(MillrKamWzanJurmana.value) - parseFloat(MillrManfiWazn.value)
+                let MILLERRATE = parseFloat(MillrRate.value)
+                let MILLERsafiWazan = parseFloat(MillrSafiWazan.value)
+                if (MILLERRATE > 0 && MILLERsafiWazan > 0) {
+                    MillrSafiRate.value = MILLERRATE - MillrKamiRate.value
+                    let customerRaqm = parseFloat(MillrSafiWazan.value) / 40 * parseFloat(MillrSafiRate.value)
+                    testroundoff = roundoff(customerRaqm)
+                    MillrRaqm.value = testroundoff
+                    MillrSafiBill.value = MillrRaqm.value - MillrComputerCharges.value - MillrMunshianaTxtBx.value - MillrMazdooriTxtBx.value
+                    MillrBaqayaRaqm.value = parseFloat(MillrSafiBill.value) + parseFloat(MillrBrokeriTxtBx.value)
+             //       customerRaqm = customerRaqm - parseFloat(MillrComputerCharges) - parseFloat(MillrMunshianaTxtBx) - parseFloat(MillrMazdooriTxtBx) - parseFloat(MillrBrokeriTxtBx) 
+                }
+            }
+
+        }
+
+        // Events
+
+        document.getElementById("conkanWeight").addEventListener("keyup", function () {
+            CALC3()
+        })
+
+        document.getElementById("bKANKAAT").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("bDanaKaat").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("KamWazanJurmana").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("tadad").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("KameeRate").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("rate").addEventListener("keyup", function () {
+             CALC()
+        })
+
+        document.getElementById("KulDMG").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("KulKachr").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("KulNami").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("KarayaKanta").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("munshiana").addEventListener("keyup", function () {
+            CALC()
+        })
+
+        document.getElementById("Mazdoori").addEventListener("keyup", function () {
+            CALC()
+        })
+
+
+
+        document.getElementById("KharKunindaBRoker").addEventListener("keyup", function () {
+            let MillrBaqayaRaqm = document.getElementById("KulSafiRaqm")
+            let MillrBrokeriTxtBx = document.getElementById("KharKunindaBRoker")
+            let MillrSafiBill = document.getElementById("SafiRaqm")
+            MillrBaqayaRaqm.value = parseFloat(MillrSafiBill.value) + parseFloat(MillrBrokeriTxtBx.value)
+        })
+            // Validation
+        function Validate(ErrName, FieldName) {
+            let ErrId = document.getElementById(ErrName)
+            let Field = document.getElementById(FieldName).value
+            if (Field == "") {
+                ErrId.innerText = `Field must not be empty.`
+                ErrId.style.color = "red"
+            } else {
+                ErrId.innerText = ""
+            }
+        }
+    
+
+     function validate(){
+       axios.post('/Purchase-Order').then(() => alert("Success")).catch(() => alert("Some errros"))
+     }
+
+            // roundoff
+        function roundoff(x) {
+            let test
+            test = Math.floor(x)
+            let test1 = x - test
+            if (test1 >= 0.5) {
+                test = test + 1
+            } else {
+                test = test
+            }
+            return test
+        }
+$('#customerDropdown').select2({
+  placeholder: "Select a supplier",
+  allowClear: true,
+  dropdownParent: $('body'), // fixes modal/z-index issues
+  minimumResultsForSearch: 0 // forces the search box to appear
+});
+
+      $('#customerDropdown').on('change', function() {
+    const selectedOption = $(this).find('option:selected');
+    const custPayDue = parseFloat(selectedOption.data('due')) || 0;
+    const custName = selectedOption.data('name');
+
+    $('#CustomerName').val(custName);   // send name in form
+    })
+    </script>
+</body>
+</html>
