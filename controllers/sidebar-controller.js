@@ -366,11 +366,11 @@ exports.CreateSaleOrder = async function (req, res) {
     let saleOrder = new SaleOrder(req.body);
     try {
         let SALEOrder = await saleOrder.createSaleOrder();
-        req.flash("success_msg", `Successfully created sale order`);
+        req.flash("success_msg", "Successfully created sale order");
         res.redirect("/sales-order-page");  // go back to the form page
     } catch (errors) {
         // errors could be array of strings
-            console.error("Create Sale Order error:", err); // log DB error
+            console.error("Create Sale Order error:", errors); // log DB error
         req.flash("error_msg", Array.isArray(errors) ? errors.join(", ") : errors);
         res.redirect("/sales-order-page");  // back to form
     }
@@ -389,6 +389,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
