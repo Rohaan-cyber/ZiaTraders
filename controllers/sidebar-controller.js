@@ -334,7 +334,7 @@ exports.SaleOrder = async function(req, res) {
  let customer = new Customer({}, req.session.user.id)  // <-- pass user id
  customers = await customer.findCustomers()  // fetch only this user's customers
  let saleOrder = new SaleOrder()
-let orderNo = saleOrder.GetorderNo()
+let orderNo = await saleOrder.GetorderNo()
     res.render('sale-order', {
          user: req.session.user,
         success_msg: req.flash("success_msg"),
@@ -388,6 +388,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
