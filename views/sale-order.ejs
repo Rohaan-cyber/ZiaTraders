@@ -84,9 +84,9 @@
                             <input style="background-color: lightgray" class="form-control" name="orderDate" value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly >
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Supplier Name (سپلائر)</label><br>
+                            <label class="form-label">Customer Name</label><br>
                              <select id="customerDropdown" name="customerDropdown" class="form-select">
-  <option value="">Select a supplier</option>
+  <option value="">Select a customer</option>
   <% customers.forEach(function(cust) { %>
     <option value="<%= cust._id %>" data-name="<%= cust.custName %>">
       <%=  cust.custName %>
@@ -456,7 +456,7 @@
             return test
         }
 $('#customerDropdown').select2({
-  placeholder: "Select a supplier",
+  placeholder: "Select a customer",
   allowClear: true,
   dropdownParent: $('body'), // fixes modal/z-index issues
   minimumResultsForSearch: 0 // forces the search box to appear
