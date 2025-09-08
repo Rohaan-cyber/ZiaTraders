@@ -105,7 +105,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Order Number (آرڈر نمبر)</label>
-                            <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo" value="<%= orderNo %>" onblur="Validate('OrderNumberErr', 'OrderNumber')" readonly>
+                            <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo" value="<%= orderNo  || 0 %>" onblur="Validate('OrderNumberErr', 'OrderNumber')" readonly>
                             <span id="OrderNumberErr"></span>
                         </div>
                                                 <div class="col-md-3">
