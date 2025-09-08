@@ -74,8 +74,8 @@ SaleOrder.prototype.createSaleOrder = function () {
                     orderNo: newOrderNo,
                     billNo: this.data.billNo,
                     Date: new Date(this.data.orderDate),
-                    supplierId: new ObjectId(this.data.customerDropdown),
-                    supplierName: supplierName,
+                    customerId: new ObjectId(this.data.customerDropdown),
+                    customerName: supplierName,
                     truckNumber: this.data.truckNumber,
                     commodity: this.data.commodity,
                     ConKanWeight: parseFloat(this.data.ConKanWeight),
@@ -108,10 +108,10 @@ SaleOrder.prototype.createSaleOrder = function () {
                 let customer = await SupplierCollection().findOne({ custName: supplierName })
                 let custPaydue = supplier.custPayDue
                 let total = custPaydue - this.data.kulSafiRaqm
-                await SupplierCollection().findOneAndUpdate({ supName: supplierName }, { $set: { supPayDue: total } })
+                await SupplierCollection().findOneAndUpdate({ custName: supplierName }, { $set: { custPayDue: total } })
                 await supplierLedgerCollection().insertOne({
                     Date: new Date(),
-                    SupplierName: supplierName,
+                    customerName: supplierName,
                     BillNumber: this.data.billNo,
                     Debit: total * (-1),
                     Credit: 0,
