@@ -329,6 +329,21 @@ exports.createSuppTransaction = async function (req, res) {
     }
 }
 
+exports.SaleOrder = async function(req, res) {
+ let customer = new Customer({}, req.session.user.id)  // <-- pass user id
+ customers = await customer.findCustomers()  // fetch only this user's customers
+ let saleOrder = new SaleOrder()
+let orderNo = saleOrder.GetorderNo()
+    res.render('sale-order', {
+         user: req.session.user,
+        success_msg: req.flash("success_msg"),
+        error_msg: req.flash("error_msg"),
+        activePage: "Sale-Order",
+        customers,
+        orderNo,
+        TodayDate: new Date()
+    })
+}
 
 exports.PurchaseOrder = async function (req, res) {
     let supplier = new Supplier({}, req.session.user.id)  // <-- pass user id
@@ -358,4 +373,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
+
+
 
