@@ -119,7 +119,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                     Remaining: total
                 })
                 await SaleOrderCollection().insertOne(this.data);
-                resolve("Purchase order created successfully");
+                resolve();
             } else {
                 reject(this.errors.join(", "));
             }
