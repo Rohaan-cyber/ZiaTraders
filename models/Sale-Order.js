@@ -62,7 +62,7 @@ SaleOrder.prototype.validate = async function () {
 
 
 // Create purchase order
-SaleOrder.prototype.createsaleOrder = function () {
+SaleOrder.prototype.createSaleOrder = function () {
     return new Promise(async (resolve, reject) => {
         try {
             await this.validate()
