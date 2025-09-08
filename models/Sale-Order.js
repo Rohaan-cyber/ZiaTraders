@@ -38,7 +38,7 @@ async function getSupplierNameById(supplierId) {
         .collection("customers")
         .findOne({ _id: new ObjectId(supplierId) });
 
-    return supplier ? supplier.supName : "";
+    return supplier ? supplier.custName : "";
 }
 
 // Get next orderNo
