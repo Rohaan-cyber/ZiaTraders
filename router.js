@@ -13,8 +13,8 @@ router.get("/dashboard", requireLogin, sidebarController.Dashboard);
 router.get('/purchase-order-page', requireLogin, sidebarController.PurchaseOrder)
 router.post('/Purchase-Order', requireLogin, sidebarController.CreatePurchaseOrder)
 // sale order
-router.get('/sale-order-page', requireLogin, sidebarController.SaleOrder)
-router.post('/Purchase-Order', requireLogin, sidebarController.CreateSaleOrder)
+router.get('/sales-order-page', requireLogin, sidebarController.SaleOrder)
+router.post('/Sale-Order', requireLogin, sidebarController.CreateSaleOrder)
 // delete customer
 router.post("/customers/delete/:id", requireLogin, sidebarController.deleteCustomer)
 router.post("/suppliers/delete/:id", requireLogin, sidebarController.deleteSupplier)
@@ -52,5 +52,6 @@ router.post("/logout", userController.logout);
 
 
 module.exports = router;
+
 
 
