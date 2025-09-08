@@ -106,6 +106,7 @@ SaleOrder.prototype.createSaleOrder = function () {
 
 
                 let customer = await SupplierCollection().findOne({ custName: supplierName })
+                console.log("supplierName:", supplierName);
                 let custPaydue = customer.custPayDue || 0
                 let total = custPaydue - this.data.kulSafiRaqm
                 await SupplierCollection().findOneAndUpdate({ custName: supplierName }, { $set: { custPayDue: total } })
