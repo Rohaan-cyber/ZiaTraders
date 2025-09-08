@@ -6,7 +6,7 @@ let SaleOrder = function (data) {
     this.errors = [];
 };
 
-function PurchaseOrderCollection() {
+function SaleOrderCollection() {
     return getDb().collection("SaleOrder");
 }
 
@@ -20,7 +20,7 @@ function supplierLedgerCollection() {
 
 // Get the next order number
 async function maxNumber() {
-    const result = await PurchaseOrderCollection()
+    const result = await SaleOrderCollection()
         .aggregate([{ $group: { _id: null, max: { $max: "$orderNo" } } }])
         .toArray();
 
@@ -106,7 +106,7 @@ SaleOrder.prototype.createSaleOrder = function () {
 
 
                 let customer = await SupplierCollection().findOne({ custName: supplierName })
-                let custPaydue = supplier.custPayDue
+                let custPaydue = customer.custPayDue || 0
                 let total = custPaydue - this.data.kulSafiRaqm
                 await SupplierCollection().findOneAndUpdate({ custName: supplierName }, { $set: { custPayDue: total } })
                 await supplierLedgerCollection().insertOne({
@@ -118,7 +118,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                     Details: "Order Number: " + this.data.orderNo,
                     Remaining: total
                 })
-                await PurchaseOrderCollection().insertOne(this.data);
+                await SaleOrderCollection().insertOne(this.data);
                 resolve("Purchase order created successfully");
             } else {
                 reject(this.errors.join(", "));
