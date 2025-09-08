@@ -62,7 +62,7 @@
         <td><%= txn.BillNumber || '-' %></td>
         <td><%= txn.Debit || 0 %></td>
         <td><%= txn.credit || 0 %></td>
-        <td><%= txn.Details || No Details %></td>
+        <td><%= txn.Details || 'No Details' %></td>
         <td><%= txn.Remaining || 0 %></td>
       </tr>
     <% }) %>
@@ -98,6 +98,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
