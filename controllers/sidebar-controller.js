@@ -4,6 +4,7 @@ const Supplier = require('../models/Suppliers')
 const { ObjectId } = require('mongodb').ObjectId
 const SuppLedger = require('../models/Supplier-Payment')
 let PurchaseOrder = require('../models/Purchase-Order')
+let SaleOrder = require('../models/Sale-Order')
 
 let customers
 
@@ -361,6 +362,20 @@ exports.PurchaseOrder = async function (req, res) {
     })
 }
 
+exports.CreateSaleOrder = async function (req, res) {
+    let saleOrder = new SaleOrder(req.body);
+    try {
+        let SALEOrder = await saleOrder.createSaleOrder();
+        req.flash("success_msg", SALEORDER);
+        res.redirect("/sale-order-page");  // go back to the form page
+    } catch (errors) {
+        // errors could be array of strings
+        req.flash("error_msg", Array.isArray(errors) ? errors.join(", ") : errors);
+        res.redirect("/sale-order-page");  // back to form
+    }
+};
+
+
 exports.CreatePurchaseOrder = async function (req, res) {
     let purchaseOrder = new PurchaseOrder(req.body);
     try {
@@ -373,6 +388,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
