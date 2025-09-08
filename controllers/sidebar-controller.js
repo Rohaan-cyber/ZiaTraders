@@ -367,11 +367,11 @@ exports.CreateSaleOrder = async function (req, res) {
     try {
         let SALEOrder = await saleOrder.createSaleOrder();
         req.flash("success_msg", SALEORDER);
-        res.redirect("/sale-order-page");  // go back to the form page
+        res.redirect("/sales-order-page");  // go back to the form page
     } catch (errors) {
         // errors could be array of strings
         req.flash("error_msg", Array.isArray(errors) ? errors.join(", ") : errors);
-        res.redirect("/sale-order-page");  // back to form
+        res.redirect("/sales-order-page");  // back to form
     }
 };
 
@@ -388,6 +388,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
