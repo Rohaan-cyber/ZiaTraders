@@ -1,8 +1,9 @@
 const { getDb } = require("../db");
-const { ObjectId } = require("mongodb");
+const { ObjectId }  = require("mongodb");
 
-let PurchaseOrder = function (data) {
+let PurchaseOrder = function (data, userid) {
     this.data = data;
+    this.userid = userid
     this.errors = [];
 };
 
@@ -16,6 +17,10 @@ function SupplierCollection() {
 
 function supplierLedgerCollection() {
     return getDb().collection("supplierLedger")
+}
+
+function inventoryCollection() {
+    return getDb().collection("inventory")
 }
 
 // Get the next order number
