@@ -5,6 +5,7 @@ const { ObjectId } = require('mongodb').ObjectId
 const SuppLedger = require('../models/Supplier-Payment')
 let PurchaseOrder = require('../models/Purchase-Order')
 let SaleOrder = require('../models/Sale-Order')
+let User = require('../models/User')
 
 let customers
 
@@ -28,6 +29,8 @@ exports.Dashboard = async (req, res) => {
         const recentCustTransactions = CustTransactions
         const recentSuppTransactions = SuppTransactions
 
+           let user = new User({}, req.session.user.id)
+   let inventory = await user.findInventory()
         res.render("dashboard", {
             user: req.session.user,
             success_msg: req.flash("success_msg"),
@@ -38,6 +41,7 @@ exports.Dashboard = async (req, res) => {
             totalReceivable: custRecieveAmount,
             recentCustTransactions,
             recentSuppTransactions,
+            inventory,
             activePage: "dashboard"
         })
     } catch (err) {
@@ -378,7 +382,7 @@ exports.CreateSaleOrder = async function (req, res) {
 
 
 exports.CreatePurchaseOrder = async function (req, res) {
-    let purchaseOrder = new PurchaseOrder(req.body);
+       let purchaseOrder = new PurchaseOrder(req.body, req.session.user.id);
     try {
         let PurChaseOrder = await purchaseOrder.createpurchaseOrder();
         req.flash("success_msg", PurChaseOrder);
@@ -389,6 +393,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
