@@ -30,7 +30,13 @@ exports.Dashboard = async (req, res) => {
         const recentSuppTransactions = SuppTransactions
 
            let user = new User({}, req.session.user.id)
-   let inventory = await user.findInventory().value.toLocaleString()
+let inventoryData = await user.findInventory();  // inventoryData is either {commodity, value} or 0
+let inventoryValue = 0;
+
+if (inventoryData && inventoryData.value !== undefined) {
+    inventoryValue = inventoryData.value.toLocaleString();
+}
+
         res.render("dashboard", {
             user: req.session.user,
             success_msg: req.flash("success_msg"),
@@ -41,7 +47,7 @@ exports.Dashboard = async (req, res) => {
             totalReceivable: custRecieveAmount,
             recentCustTransactions,
             recentSuppTransactions,
-            inventory,
+            inventory: inventoryValue,
             activePage: "dashboard"
         })
     } catch (err) {
@@ -393,6 +399,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
