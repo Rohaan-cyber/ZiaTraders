@@ -1,8 +1,9 @@
 const { getDb } = require("../db");
 const { ObjectId } = require("mongodb");
 
-let SaleOrder = function (data) {
+let SaleOrder = function (data, userid) {
     this.data = data;
+    this.userid = userid
     this.errors = [];
 };
 
@@ -16,6 +17,10 @@ function SupplierCollection() {
 
 function supplierLedgerCollection() {
     return getDb().collection("customerLedger")
+}
+
+function inventoryCollection() {
+    return getDb().collection("inventory")
 }
 
 // Get the next order number
@@ -71,6 +76,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                 const supplierName = await getSupplierNameById(this.data.customerDropdown);
 
                 this.data = {
+                    userid: this.userid,
                     orderNo: newOrderNo,
                     billNo: this.data.billNo,
                     Date: new Date(this.data.orderDate),
@@ -119,6 +125,11 @@ SaleOrder.prototype.createSaleOrder = function () {
                     Remaining: total
                 })
                 await SaleOrderCollection().insertOne(this.data);
+                   await inventoryCollection().findOneAndUpdate(
+       { userid: new ObjectId(this.userid) },        // filter by user
+       { $inc: { value: -this.data.tadad } }, // increment Mungi stock
+       { upsert: true, returnDocument: "after" } // create if not exists
+   )
                 resolve();
             } else {
                 reject(this.errors.join(", "));
