@@ -85,9 +85,9 @@
           <tbody>
             <% recentSuppTransactions.forEach(Stxn => { %>
             <tr>
-              <td><%= Stxn.SupplierName %></td>
-              <td><%= Stxn.Debit %></td>
-              <td><%= Stxn.credit %></td>
+              <td><%= Stxn.SupplierName || '-' %></td>
+              <td><%= Stxn.Debit || 0 %></td>
+              <td><%= Stxn.credit || 0 %></td>
             </tr>
             <% }) %>
           </tbody>
@@ -108,9 +108,9 @@
           <tbody>
             <% recentCustTransactions.forEach(Ctxn => { %>
             <tr>
-              <td><%= Ctxn.CustomerName %></td>
-              <td><%= Ctxn.Debit %></td>
-              <td><%= Ctxn.Credit %></td>
+              <td><%= Ctxn.CustomerName || '-' %></td>
+              <td><%= Ctxn.Debit || 0 %></td>
+              <td><%= Ctxn.Credit || 0 %></td>
             </tr>
             <% }) %>
           </tbody>
@@ -125,6 +125,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
