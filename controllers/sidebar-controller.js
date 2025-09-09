@@ -367,7 +367,7 @@ exports.PurchaseOrder = async function (req, res) {
 }
 
 exports.CreateSaleOrder = async function (req, res) {
-    let saleOrder = new SaleOrder(req.body);
+    let saleOrder = new SaleOrder(req.body, req.session.user.id);
     try {
         let SALEOrder = await saleOrder.createSaleOrder();
         req.flash("success_msg", "Successfully created sale order");
@@ -393,6 +393,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
