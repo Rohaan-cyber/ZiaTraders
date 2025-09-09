@@ -70,7 +70,7 @@ SuppLedger.prototype.createSuppLedger = function () {
                 SupplierName: supplierName,   // the name
                 BillNumber: parseInt(this.legdata.BillNumber),
                 Debit: debitvalue,
-                credit: creditvalue,
+                Credit: creditvalue,
                 Details: this.legdata.Details,
                 Remaining: total
             };
@@ -118,3 +118,4 @@ SuppLedger.prototype.createSuppTran = function () {
 }
 
 module.exports = SuppLedger;
+
