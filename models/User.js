@@ -2,8 +2,9 @@ const validator = require("validator")
 const bcrypt = require("bcryptjs")
 const { getDb } = require("../db")
 let maxValue1
-let User = function (data) {
+let User = function (data, userid) {
     this.data = data
+    this.userid = userid
     this.errors = []
 }
 
@@ -12,6 +13,10 @@ let User = function (data) {
 // Helper to get users collection safely
 function usersCollection() {
     return getDb().collection("users")
+}
+
+function inventoryCollection() {
+    return getDb().collection("inventory")
 }
 
 async function maxNumber() {
@@ -84,12 +89,22 @@ User.prototype.register = function () {
             const salt = await bcrypt.genSalt(10)
             this.data.password = await bcrypt.hash(this.data.password, salt)
 
-            await usersCollection().insertOne(this.data)
+         let Inserteddata = await usersCollection().insertOne(this.data)
+           let person = await inventoryCollection().insertOne({
+                commodity: "Mungi",
+               value: 0,
+               userid: new ObjectId(Inserteddata.insertedId),
+           })
             resolve()
         } else {
             reject(this.errors)
         }
     })
+}
+
+User.prototype.findInventory = async function () {
+    let inventory = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) })
+    return inventory || 0
 }
 
 // model method for login check
@@ -110,4 +125,5 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
