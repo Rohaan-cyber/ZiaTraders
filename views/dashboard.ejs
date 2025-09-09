@@ -87,7 +87,7 @@
             <tr>
               <td><%= Stxn.SupplierName || '-' %></td>
               <td><%= Number(Stxn.Debit).toLocaleString() || 0 %></td>
-              <td><%= Stxn.credit || 0 %></td>
+              <td><%= Number(Stxn.credit).toLocaleString() || 0 %></td>
             </tr>
             <% }) %>
           </tbody>
@@ -109,8 +109,8 @@
             <% recentCustTransactions.forEach(Ctxn => { %>
             <tr>
               <td><%= Ctxn.CustomerName || '-' %></td>
-              <td><%= Ctxn.Debit || 0 %></td>
-              <td><%= Ctxn.Credit || 0 %></td>
+              <td><%= Number(Ctxn.Debit).toLocaleString() || 0 %></td>
+              <td><%= Number(Ctxn.Credit).toLocaleString() || 0 %></td>
             </tr>
             <% }) %>
           </tbody>
@@ -125,6 +125,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
