@@ -15,9 +15,16 @@ exports.Dashboard = async (req, res) => {
         let customersLength = await customer.findCustomersLength()
 
         let supplier = new Supplier({}, req.session.user.id)
-        let suppliersLength = await supplier.findSupplierLength().toLocaleString()
-        let supPayableAmount = await supplier.findSupplierAmount().toLocaleString()
-        let custRecieveAmount = await customer.findCustomerAmount().toLocaleString()
+     // Wait for the async function to finish before formatting
+let suppliersLengthRaw = await supplier.findSupplierLength();
+let suppliersLength = suppliersLengthRaw.toLocaleString();
+
+let supPayableRaw = await supplier.findSupplierAmount();
+let supPayableAmount = supPayableRaw.toLocaleString();
+
+let custRecieveRaw = await customer.findCustomerAmount();
+let custRecieveAmount = custRecieveRaw.toLocaleString();
+
 
         // ✅ Pass both args: (legdata={}, userid)
         let custledger = new CustLedger({}, req.session.user.id)
@@ -399,6 +406,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
