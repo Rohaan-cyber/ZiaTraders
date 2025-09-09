@@ -69,10 +69,12 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
         try {
             await this.validate()
             if (!this.errors.length) {
-                const newOrderNo = await maxNumber();
-                const supplierName = await getSupplierNameById(this.data.customerDropdown);
+                const newOrderNo = await maxNumber()
+                const supplierName = await getSupplierNameById(this.data.customerDropdown)
 
+                // ✅ Preserve existing data + add new fields
                 this.data = {
+                    userid: this.userid, // keep track of which user created it
                     orderNo: newOrderNo,
                     billNo: this.data.billNo,
                     Date: new Date(this.data.orderDate),
@@ -104,31 +106,46 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                     safiRaqm: parseFloat(this.data.safiRaqm),
                     KharKunindaBroker: parseFloat(this.data.KharKunindaBroker),
                     kulSafiRaqm: parseFloat(this.data.kulSafiRaqm),
-                };
+                }
 
-
+                // ✅ Supplier PayDue update
                 let supplier = await SupplierCollection().findOne({ supName: supplierName })
-                let suppPaydue = supplier.supPayDue
-                let total = suppPaydue - this.data.kulSafiRaqm
-                await SupplierCollection().findOneAndUpdate({ supName: supplierName }, { $set: { supPayDue: total } })
-                supplierLedgerCollection().insertOne({
+                let suppPaydue = supplier?.supPayDue ?? 0
+                let newBalance = suppPaydue - this.data.kulSafiRaqm
+
+                await SupplierCollection().findOneAndUpdate(
+                    { supName: supplierName },
+                    { $set: { supPayDue: newBalance } }
+                )
+
+                // ✅ Supplier ledger entry
+                await supplierLedgerCollection().insertOne({
                     Date: new Date(),
                     SupplierName: supplierName,
                     BillNumber: this.data.billNo,
-                    Debit: total * (-1),
+                    Debit: this.data.kulSafiRaqm, // amount you owe supplier
                     Credit: 0,
                     Details: "Order Number: " + this.data.orderNo,
-                    Remaining: total
+                    Remaining: newBalance
                 })
-                await PurchaseOrderCollection().insertOne(this.data);
-                resolve("Purchase order created successfully");
+
+                // ✅ Save purchase order
+                await PurchaseOrderCollection().insertOne(this.data)
+
+                // ✅ Update inventory with upsert
+                await inventoryCollection().findOneAndUpdate(
+                    { userid: new ObjectId(this.userid) },        // filter by user
+                    { $inc: { value: this.data.tadad } }, // increment Mungi stock
+                    { upsert: true, returnDocument: "after" } // create if not exists
+                )
+
+                resolve("Purchase order created successfully")
             } else {
-                reject(this.errors.join(", "));
+                reject(this.errors.join(", "))
             }
         } catch (err) {
-            reject(err);
+            reject(err)
         }
-    });
-};
-
+    })
+}
 module.exports = PurchaseOrder;
