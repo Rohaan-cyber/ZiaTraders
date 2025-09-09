@@ -15,9 +15,9 @@ exports.Dashboard = async (req, res) => {
         let customersLength = await customer.findCustomersLength()
 
         let supplier = new Supplier({}, req.session.user.id)
-        let suppliersLength = await supplier.findSupplierLength()
-        let supPayableAmount = await supplier.findSupplierAmount()
-        let custRecieveAmount = await customer.findCustomerAmount()
+        let suppliersLength = await supplier.findSupplierLength().toLocaleString()
+        let supPayableAmount = await supplier.findSupplierAmount().toLocaleString()
+        let custRecieveAmount = await customer.findCustomerAmount().toLocaleString()
 
         // ✅ Pass both args: (legdata={}, userid)
         let custledger = new CustLedger({}, req.session.user.id)
@@ -30,7 +30,7 @@ exports.Dashboard = async (req, res) => {
         const recentSuppTransactions = SuppTransactions
 
            let user = new User({}, req.session.user.id)
-   let inventory = await user.findInventory()
+   let inventory = await user.findInventory().value.toLocaleString()
         res.render("dashboard", {
             user: req.session.user,
             success_msg: req.flash("success_msg"),
@@ -393,6 +393,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
