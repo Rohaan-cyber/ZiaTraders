@@ -80,9 +80,9 @@
 
           <td>
           <% if (cust.custPayDue > 0) { %>
-                   <%= cust.custPayDue || 0 %>  Jama
+                   <%= Number(cust.custPayDue).toLocaleString() || 0 %>  Jama
          <%  } else { %>
-       <%= cust.custPayDue * (-1) || 0 %>  Banam
+       <%= Number(cust.custPayDue * (-1)).toLocaleString() || 0 %>  Banam
         <%  } %>
         </td>
 
@@ -168,6 +168,7 @@ form.addEventListener('submit', async function(e) {
 
 </body>
 </html>
+
 
 
 
