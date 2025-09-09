@@ -1,6 +1,7 @@
 const validator = require("validator")
 const bcrypt = require("bcryptjs")
 const { getDb } = require("../db")
+const ObjectId = require('mongodb').ObjectId
 let maxValue1
 let User = function (data, userid) {
     this.data = data
@@ -125,5 +126,6 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
