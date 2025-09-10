@@ -20,7 +20,7 @@
 <body>
   <%- include('includes/sidebar', { activePage: 'transactions' }) %>
   <div class="content">
-    <%- include('includes/header', { pageTitle: 'Khata', user: user }) %>
+    <%- include('includes/header', { pageTitle: 'کھاتا', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
 
 
@@ -28,7 +28,7 @@
      
 
      
-        <label for="customerDropdown" class="form-label">Khareed Kuninda:</label>
+        <label for="customerDropdown" class="form-label">خرید کنندہ:</label>
        <select id="customerDropdown" name="customerDropdown">
   <option value="">Select a customer</option>
   <% customers.forEach(function(cust) { %>
@@ -38,17 +38,17 @@
   <% }); %>
 </select>
 <input type="text" name="CustomerName2" id="CustomerName2" readonly>
-<button class="btn btn-primary">Ledger</button>
+<button class="btn btn-primary">کھاتہ</button>
 
  <table class="table table-striped">
       <thead>
         <tr>
-         <th>Date</th>
-         <th>Bill Number</th>
-         <th>Banam</th>
-         <th>Jama</th>
-         <th>Details</th>
-         <th>Baqaya</th>
+         <th>تاریخ</th>
+         <th>بل نمبر</th>
+         <th>بنام</th>
+         <th>جمع</th>
+         <th>تفصیل</th>
+         <th>بقایہ</th>
         </tr>
       </thead>
 <tbody>
@@ -98,6 +98,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
