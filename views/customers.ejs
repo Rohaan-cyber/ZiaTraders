@@ -20,7 +20,7 @@
 <body>
   <%- include('includes/sidebar', { user: user, activePage: 'customers' }) %>
   <div class="content">
-    <%- include('includes/header', { pageTitle: 'Khareed Kuninda', user: user }) %>
+    <%- include('includes/header', { pageTitle: 'خرید کنندہ', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
 
     <div class="row mb-4">
@@ -40,11 +40,11 @@
 
             <div class="row">
      <div class="col">
-      <label>Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="custArea" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline"><br><br>
+      <label>شہر&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="custArea" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline"><br><br>
     
         </div>
       <div class="col">
-      <label>Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="custProvince" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+      <label>صوبہ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="custProvince" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
      </div>
      </div>
     <br><button class="btn btn-success btn-sm">نیا خرید کنندہ</button>
@@ -168,6 +168,7 @@ form.addEventListener('submit', async function(e) {
 
 </body>
 </html>
+
 
 
 
