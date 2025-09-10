@@ -66,9 +66,8 @@
        <% if(txn.Remaining > 0) { %>
 <td><%= txn.Remaining || 0 %> جمع</td>
       <%  } else { %>
-  <td><%= txn.Remaining || 0 %> بنام</td>
+  <td><%= txn.Remaining * (-1) || 0 %> بنام</td>
      <% } %>
-      
       </tr>
     <% }) %>
   <% } else { %>
@@ -103,6 +102,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
