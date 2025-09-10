@@ -17,13 +17,13 @@ exports.Dashboard = async (req, res) => {
         let supplier = new Supplier({}, req.session.user.id)
      // Wait for the async function to finish before formatting
 let suppliersLengthRaw = await supplier.findSupplierLength();
-let suppliersLength = suppliersLengthRaw.toLocaleString();
+let suppliersLength = suppliersLengthRaw || 0;
 
 let supPayableRaw = await supplier.findSupplierAmount();
-let supPayableAmount = supPayableRaw.toLocaleString();
+let supPayableAmount = supPayableRaw || 0;
 
 let custRecieveRaw = await customer.findCustomerAmount();
-let custRecieveAmount = custRecieveRaw.toLocaleString();
+let custRecieveAmount = custRecieveRaw || 0;
 
 
         // ✅ Pass both args: (legdata={}, userid)
@@ -406,6 +406,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
