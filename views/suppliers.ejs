@@ -19,7 +19,7 @@
 <body>
   <%- include('includes/sidebar', { user: user, activePage: 'suppliers' }) %>
   <div class="content">
-    <%- include('includes/header', { pageTitle: 'Frokht Kuninda', user: user }) %>
+    <%- include('includes/header', { pageTitle: 'فروخت کنندہ', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
 
     <div class="row mb-4">
@@ -29,45 +29,45 @@
     <form id="form-supplier" class="form form-striped" action="/create-supplier" method="POST">
          <div class="row">
         <div class="col">
-    <label>Frokht Kuninda &nbsp; </label><input name="supName" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+    <label>فروخت کنندہ &nbsp; </label><input name="supName" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
       </div>
 
  <div class="col">
-      <label>Phone Number &nbsp;</label><input name="supPhoneNum" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+      <label>فون نمبر &nbsp;</label><input name="supPhoneNum" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
       </div>
           </div><br>
 
             <div class="row">
      <div class="col">
-      <label>Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="supArea" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline"><br><br>
+      <label>شہر&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="supArea" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline"><br><br>
     
         </div>
 
       
     
       <div class="col">
-      <label>Province&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="supProvince" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
+      <label>صوبہ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input name="supProvince" type="text" class="form-control form-control-sm input-dark" style="width: 200px; display: inline">
      </div>
      </div>
-    <br><button class="btn btn-success btn-sm">New Frokht Kuninda</button>
+    <br><button class="btn btn-success btn-sm">نیا فروخت کنندہ</button>
    
    </form><br><br>
    </div>
       <div class="col">
         <div class="card">
           <div class="card-header bg-primary text-white">
-            Frokht Kuninda List
+            فروخت کنندہ فہرست
           </div>
           <div class="card-body p-0">
             <table id="SupplierTable" class="table table-striped mb-0">
               <thead class="table-light">
                 <tr>
                   <th>id</th>
-                  <th>Frokht Kuninda</th>
-                   <th>Payment Due</th>
-                   <th>Phone</th>
-                   <th>Area</th>
-                   <th>Province</th>
+                  <th>فروخت کنندہ</th>
+                   <th>بقایا</th>
+                   <th>فون</th>
+                   <th>شہر</th>
+                   <th>صوبہ</th>
                 </tr>
               </thead>
               <tbody>
@@ -158,6 +158,7 @@ fetch('/create-supplier', {
 
 </body>
 </html>
+
 
 
 
