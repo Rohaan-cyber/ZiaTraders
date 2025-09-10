@@ -79,9 +79,9 @@
 
           <td>
           <% if (sup.supPayDue > 0) { %>
-          <%= Number(sup.supPayDue).toLocaleString() || 0 %>  Jama
+          <%= Number(sup.supPayDue).toLocaleString() || 0 %>  جمع
          <% } else { %>
-           <%= Number(sup.supPayDue * (-1)).toLocaleString() || 0 %>  Banam
+           <%= Number(sup.supPayDue * (-1)).toLocaleString() || 0 %>  بنام
          <% } %>
           </td>
 
@@ -158,6 +158,7 @@ fetch('/create-supplier', {
 
 </body>
 </html>
+
 
 
 
