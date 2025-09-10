@@ -52,29 +52,26 @@
         </tr>
       </thead>
 <tbody>
-  <% if (customerTransactions && customerTransactions.length) { %>
-    <% customerTransactions.forEach(txn => { %>
-      <tr>
-      <script>
-         document.getElementById("CustomerName2").value = "<%= txn.CustomerName %>"
-        </script>
-        <td><%= txn.Date.toLocaleDateString() %></td>
-        <td><%= txn.BillNumber || '-' %></td>
-        <td><%= txn.Debit || 0 %></td>
-        <td><%= txn.credit || 0 %></td>
-        <td><%= txn.Details || 'No Details' %></td>
-       <% if(txn.Remaining > 0) { %>
-<td><%= txn.Remaining || 0 %> جمع</td>
-      <%  } else { %>
-  <td><%= txn.Remaining * (-1) || 0 %> بنام</td>
-     <% } %>
-      </tr>
-    <% }) %>
-  <% } else { %>
+ <% if (customerTransactions && customerTransactions.length) { %>
+  <% customerTransactions.forEach(txn => { %>
     <tr>
-      <td colspan="6">No transactions found</td>
+      <td><%= txn.Date ? txn.Date.toLocaleDateString() : "-" %></td>
+      <td><%= txn.BillNumber || '-' %></td>
+      <td><%= txn.Debit || 0 %></td>
+      <td><%= txn.Credit || 0 %></td>
+      <td><%= txn.Details || 'No Details' %></td>
+      <td>
+        <%= Math.abs(txn.Remaining) || 0 %>
+        <%= txn.Remaining > 0 ? "جمع" : "بنام" %>
+      </td>
     </tr>
-  <% } %>
+  <% }) %>
+<% } else { %>
+  <tr>
+    <td colspan="6">کوئی ٹرانزیکشن موجود نہیں</td>
+  </tr>
+<% } %>
+
 </tbody>
 
     </table>
@@ -102,6 +99,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
