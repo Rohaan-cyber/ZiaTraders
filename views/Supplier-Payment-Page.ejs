@@ -24,7 +24,7 @@
  <div class="content">
     <form action="/createSuppLedger" method="POST">
       <div class="mb-3">
-        <label class="form-label">Date:</label>
+        <label class="form-label">تاریخ:</label>
         <!-- add name="Date" -->
         <input id="Date" name="Date" style="width: 200px; display: inline" 
                type="text" class="form-control" 
@@ -33,7 +33,7 @@
       </div>
 
       <div class="mb-3">
-        <label for="supplierDropdown" class="form-label">Frokht Kuninda:</label>
+        <label for="supplierDropdown" class="form-label">فروخت کنندہ:</label>
        <select id="supplierDropdown" name="supplierDropdown">
   <option value="">Select a Supplier</option>
   <% suppliers.forEach(function(supp) { %>
@@ -45,7 +45,7 @@
 <input type="hidden" name="CustomerName" id="CustomerName">
 
 
-        <label>Payment Due: </label> 
+        <label>بقایہ: </label> 
         <!-- add name="custPayDue" -->
         <input id="custPayDue" name="custPayDue" style="width: 200px; display: inline" 
                type="text" class="form-control" value="" readonly>
@@ -55,24 +55,24 @@
 
     
         <br><br>
-        <label>Bill Number: &nbsp;</label> 
+        <label>بل نمبر: &nbsp;</label> 
         <!-- add name="BillNumber" -->
         <input id="BillNumber" name="BillNumber" style="width: 100px; display: inline" type="text" class="form-control"><br><br>
 
         <!-- add name="DebitCredit" -->
         <select id="DebitCredit" name="DebitCredit" class="form-select" style="width: 120px; display: inline">
-          <option  value="Debit">Banam</option>
-          <option value="Credit">Jama</option>
+          <option  value="Debit">بنام</option>
+          <option value="Credit">جمع</option>
         </select>
 
         <!-- add name="DebitCreditVal" -->
         <input id="DebitCreditVal" name="DebitCreditVal" class="form-control" style="width:200px; display:inline" type="text"><br><br>
         
-        <label>Details</label> 
+        <label>تفصیل</label> 
         <!-- add name="Details" -->
         <input id="Details" name="Details" type="text" class="form-control"><br><br>
 
-        <button class="btn btn-success btn-sm">Submit</button>
+        <button class="btn btn-success btn-sm">Save</button>
       </div>
     </form>
   </div>
@@ -126,6 +126,7 @@
   </script>
 </body>
 </html>
+
 
 
 
