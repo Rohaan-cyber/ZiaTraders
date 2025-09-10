@@ -63,7 +63,12 @@
         <td><%= txn.Debit %></td>
         <td><%= txn.credit || 0 %></td>
         <td><%= txn.Details %></td>
-        <td><%= txn.Remaining %></td>
+     <% if(txn.Remaining > 0) { %>
+    <td><%= txn.Remaining %> جمع</td>
+     <% } else { %>
+    <td><%= txn.Remaining * (-1) %> بنام</td>
+   <%  } %>
+  
       </tr>
     <% }) %>
   <% } else { %>
@@ -98,6 +103,7 @@ $('#supplierDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
