@@ -26,7 +26,7 @@ exports.login = function (req, res) {
     let user = new User(req.body);
     user.login()
         .then(userDoc => {
-            req.session.user = { id: userDoc._id, username: userDoc.username };
+            req.session.user = { id: userDoc._id, username: userDoc.username, userDoc.ShopName || 'You dont have a shop name' };
             req.session.save(() => {
                 req.flash('success_msg', `✅ Welcome ${userDoc.username}! You are logged in.`);
                 res.redirect("/dashboard"); // <- redirect to dashboard
@@ -50,3 +50,4 @@ exports.logout = function (req, res) {
         res.redirect("/");
     }
 };
+
