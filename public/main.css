@@ -7,20 +7,23 @@ body, .tooltip {
 }
 
 /* Sidebar for desktop */
-.sidebar {
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* smaller screens */
+  }
+}
+@media (max-width: 575px) {
+  .sidebar {
+    width: 150px;
+  }
+}
+.sidebar{
   width: 250px;
   height: 100vh;
 }
-@media (max-width: 768px) {
-  .sidebar {
-    display: none; /* hide fixed sidebar on mobile */
-  }
-}
 
-/* Push content on desktop */
-@media (min-width: 769px) {
-  .main-content {
-    margin-left: 250px; /* same as sidebar width */
-  }
-}
+
+
+
 
