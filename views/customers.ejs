@@ -18,7 +18,7 @@
   </style>
 </head>
 <body>
-  <%- include('includes/sidebar', { user: user, activePage: 'customers' }) %>
+  <%- include('includes/sidebar', { SHOPNAME:shopName, user: user, activePage: 'customers' }) %>
   <div class="content">
     <%- include('includes/header', { pageTitle: 'خرید کنندہ', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
@@ -168,6 +168,7 @@ form.addEventListener('submit', async function(e) {
 
 </body>
 </html>
+
 
 
 
