@@ -54,7 +54,7 @@
 <body>
   <%- include('includes/sidebar', { SHOPNAME:shopName, activePage: 'sale-order' }) %>
   <div class="content">
-    <%- include('includes/header', { pageTitle: 'Sales Order', user: user }) %>
+    <%- include('includes/header', { pageTitle: '', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
     <% if (success_msg && success_msg.length) { %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -73,18 +73,18 @@
     <div class="container my-5">
         <div class="card">
             <div class="card-header">
-                🛒 Ghala Mandi Sale Order
+                🛒 
             </div>
             <div class="card-body">
                 <form id="PurchaseOrder" action="/Sale-Order" method="POST">
                     <!-- Buyer & Supplier Info -->
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Date (تاریخ)</label>
+                            <label class="form-label">تاریخ</label>
                             <input style="background-color: lightgray" class="form-control" name="orderDate" value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly >
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Customer Name</label><br>
+                            <label class="form-label"></label><br>
                              <select id="customerDropdown" name="customerDropdown" class="form-select">
   <option value="">Select a customer</option>
   <% customers.forEach(function(cust) { %>
@@ -104,7 +104,7 @@
                             <span id="TruckNumberErr"></span>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Order Number (آرڈر نمبر)</label>
+                            <label class="form-label">آرڈر نمبر</label>
                             <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo" value="<%= orderNo  || 0 %>" onblur="Validate('OrderNumberErr', 'OrderNumber')" readonly>
                             <span id="OrderNumberErr"></span>
                         </div>
@@ -115,7 +115,7 @@
                     </div>
 
                     <!-- Commodity Details -->
-                    <h5 class="mt-4 mb-3 text-success">🌾 Commodity Details</h5>
+                    <h5 class="mt-4 mb-3 text-success">🌾 یجنسا تافسییل</h5>
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label">Commodity (اجناس)</label>
@@ -255,7 +255,7 @@
                             <input style="background-color: lightgray" type="number" id="SafiRaqm" name="safiRaqm" class="form-control" readonly>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Khareed Kuninda Brokeri</label>
+                            <label class="form-label">Brokeri</label>
                             <input type="number" id="KharKunindaBRoker" name="KharKunindaBroker" class="form-control" onblur="Validate('KharKuBrokerErr', 'KharKunindaBRoker')">
                             <span id="KharKuBrokerErr"></span>
                         </div>
