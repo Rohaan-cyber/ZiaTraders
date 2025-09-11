@@ -52,7 +52,7 @@
     </style>
 </head>
 <body>
-  <%- include('includes/sidebar', { activePage: 'purchase-order' }) %>
+  <%- include('includes/sidebar', {SHOPNAME:shopName, activePage: 'purchase-order' }) %>
   <div class="content">
     <%- include('includes/header', { pageTitle: 'Purchase Order', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
