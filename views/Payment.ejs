@@ -19,7 +19,7 @@
   </style>
 </head>
 <body>
- <%- include('includes/sidebar', { user: user, activePage: 'payments' }) %>
+ <%- include('includes/sidebar', { SHOPNAME:shopName,user: user, activePage: 'payments' }) %>
 <div class="content">
   <%- include('includes/header', { pageTitle: 'پیمنٹ', user: user }) %>
   <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
@@ -42,5 +42,6 @@
 </body>
 
 </html>
+
 
 
