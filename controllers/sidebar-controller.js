@@ -46,7 +46,7 @@ if (inventoryData && inventoryData.value !== undefined) {
 
         res.render("dashboard", {
             user: req.session.user,
-            shopName: req.session.shopName,
+            shopName: req.session.user.ShopName,
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
             totalCustomers: customersLength,
@@ -62,7 +62,7 @@ if (inventoryData && inventoryData.value !== undefined) {
         console.error("Dashboard error:", err)
         res.render("dashboard", {
             user: req.session.user,
-              shopName: req.session.shopName,
+                shopName: req.session.user.ShopName,
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
             totalCustomers: 0,
@@ -115,7 +115,7 @@ exports.customer = async (req, res) => {
     
         res.render("customers", {
             user: req.session.user,
-              shopName: req.session.shopName,
+              shopName: req.session.user.ShopName,
             customers, // DB customers for this user
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
@@ -126,7 +126,7 @@ exports.customer = async (req, res) => {
         req.flash("error_msg", "Failed to load customers")
         res.render("customers", {
             user: req.session.user,
-              shopName: req.session.shopName,
+             shopName: req.session.user.ShopName,
             customers: [],
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
@@ -142,7 +142,7 @@ exports.suppliers = async (req, res) => {
 
         res.render("suppliers", {
             user: req.session.user,
-              shopName: req.session.shopName,
+                 shopName: req.session.user.ShopName,
             suppliers, // DB customers for this user
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
@@ -165,7 +165,7 @@ exports.suppliers = async (req, res) => {
 exports.transactions = (req, res) => {
     res.render("transactions", {
         user: req.session.user,
-             shopName: req.session.shopName,
+              shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "transactions" // <-- add this
@@ -180,7 +180,7 @@ exports.reports = (req, res) => {
             { type: "Pending Payments", value: 1200 },
             { type: "New Customers", value: 10 }
         ],
-             shopName: req.session.shopName,
+                shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "reports" 
@@ -190,7 +190,7 @@ exports.reports = (req, res) => {
 exports.settings = (req, res) => {
     res.render("settings", {
         user: req.session.user,
-             shopName: req.session.shopName,
+                 shopName: req.session.user.ShopName,
         settings: { theme: "dark", notifications: true },
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
@@ -228,7 +228,7 @@ exports.createSupplier = async (req, res) => {
 exports.payments = async (req, res) => {
     res.render('Payment', {
         user: req.session.user,
-             shopName: req.session.shopName,
+        shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "payments" 
@@ -241,7 +241,7 @@ exports.CustomerPayment = async (req, res) => {
     customers = await customer.findCustomers()  // fetch only this user's customers
     res.render('Customer-Payment-Page', {
         user: req.session.user,
-             shopName: req.session.shopName,
+             shopName: req.session.user.ShopName,
         customers,
         customerPayDue: customer.custPayDue,
         TodayDate: new Date(),
@@ -252,7 +252,7 @@ exports.SupplierPayment = async (req, res) => {
     let supplier = new Supplier({}, req.session.user.id)  // <-- pass user id
     let suppliers = await supplier.findSupplier()  // fetch only this user's customers
     res.render('Supplier-Payment-Page', {
-             shopName: req.session.shopName,
+     shopName: req.session.user.ShopName,
         user: req.session.user,
         suppliers,
         TodayDate: new Date(),
@@ -289,7 +289,7 @@ exports.customerTransaction = async function (req, res) {
     let custledger = new CustLedger(req.body)
     res.render('customer-Transactions', {
         user: req.session.user,
-             shopName: req.session.shopName,
+     shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "payments" ,
@@ -303,7 +303,7 @@ exports.supplierTransaction = async function (req, res) {
     let suppliers = await supplier.findSupplier()  // fetch only this user's customers
     let suppledger = new SuppLedger(req.body)
     res.render('supplier-Transactions', {
-             shopName: req.session.shopName,
+        shopName: req.session.user.ShopName,
         user: req.session.user,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
@@ -320,7 +320,7 @@ exports.createCustTransaction = async function (req, res) {
         let custledger = new CustLedger(req.body, req.session.user.id)
         let customerTransactions = await custledger.createCustomerTran()
         res.render('customer-Transactions', {
-                 shopName: req.session.shopName,
+           shopName: req.session.user.ShopName,
             user: req.session.user,
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
@@ -331,7 +331,6 @@ exports.createCustTransaction = async function (req, res) {
         })
         console.log(customerTransactions[0].customerName)
     } catch (err) {
-        console.log("No transactions or error:", err)
         res.send("Nothing!")
     }
 }
@@ -344,7 +343,7 @@ exports.createSuppTransaction = async function (req, res) {
         let suppledger = new SuppLedger(req.body, req.session.user.id)
         let supplierTransactions = await suppledger.createSuppTran()
         res.render('supplier-Transactions', {
-                 shopName: req.session.shopName,
+                shopName: req.session.user.ShopName,
             user: req.session.user,
             success_msg: req.flash("success_msg"),
             error_msg: req.flash("error_msg"),
@@ -354,7 +353,6 @@ exports.createSuppTransaction = async function (req, res) {
 
         })
     } catch (err) {
-        console.log("No transactions or error:", err)
         res.send("Nothing!")
     }
 }
@@ -366,7 +364,7 @@ exports.SaleOrder = async function(req, res) {
 let orderNo = await saleOrder.GetorderNo()
     res.render('sale-order', {
          user: req.session.user,
-             shopName: req.session.shopName,
+             shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "Sale-Order",
@@ -383,7 +381,7 @@ exports.PurchaseOrder = async function (req, res) {
     let orderNo = await purchaseOrder.GetorderNo()
     res.render('purchase-order', {
         user: req.session.user,
-             shopName: req.session.shopName,
+      shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "Purchase-Order",
@@ -420,3 +418,4 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
