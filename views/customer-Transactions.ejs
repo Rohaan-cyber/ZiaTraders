@@ -18,7 +18,7 @@
   </style>
 </head>
 <body>
-  <%- include('includes/sidebar', { activePage: 'transactions' }) %>
+  <%- include('includes/sidebar', { SHOPNAME:shopName, activePage: 'transactions' }) %>
   <div class="content">
     <%- include('includes/header', { pageTitle: 'کھاتہ', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
@@ -99,6 +99,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
