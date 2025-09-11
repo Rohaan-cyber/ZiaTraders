@@ -38,7 +38,8 @@ User.prototype.cleanUp = async function () {
         serialNumber: maxValue1,
         username: this.data.username.trim().toLowerCase(),
         isAdmin: this.data.isAdmin,
-        password: this.data.password
+        password: this.data.password,
+        ShopName: this.data.ShopName
     }
 }
 
@@ -60,6 +61,9 @@ User.prototype.validate = function () {
         }
         if (this.data.username.length > 30) {
             this.errors.push("Username cannot exceed 30 characters.")
+        }
+        if (this.data.ShopName == ""){
+           this.errors.push("Shop Name cannot be empty.")   
         }
 
         
@@ -126,6 +130,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
