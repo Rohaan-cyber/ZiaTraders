@@ -24,7 +24,7 @@
  <div class="content">
     <form action="/createCustLedger" method="POST">
       <div class="mb-3">
-        <label class="form-label">Date:</label>
+        <label class="form-label">تاریخ:</label>
         <!-- add name="Date" -->
         <input id="Date" name="Date" style="width: 200px; display: inline" 
                type="text" class="form-control" 
@@ -33,7 +33,7 @@
       </div>
 
       <div class="mb-3">
-  <label for="customerDropdown" class="form-label">Khareed Kuninda:</label>
+  <label for="customerDropdown" class="form-label">خرید کنندہ</label>
        <select id="customerDropdown" name="customerDropdown">
   <option value="">Select a customer</option>
   <% customers.forEach(function(cust) { %>
@@ -45,7 +45,7 @@
 <input type="hidden" name="CustomerName" id="CustomerName">
 
 
-        <label>Payment Due: </label> 
+        <label>بقایا: </label> 
         <!-- add name="custPayDue" -->
         <input id="custPayDue" name="custPayDue" style="width: 200px; display: inline" 
                type="text" class="form-control" value="" readonly>
@@ -55,14 +55,14 @@
 
     
         <br><br>
-        <label>Bill Number: &nbsp;</label> 
+        <label>بل نمبر: &nbsp;</label> 
         <!-- add name="BillNumber" -->
         <input id="BillNumber" name="BillNumber" style="width: 100px; display: inline" type="text" class="form-control"><br><br>
 
         <!-- add name="DebitCredit" -->
         <select id="DebitCredit" name="DebitCredit" class="form-select" style="width: 120px; display: inline">
-          <option  value="Debit">Banam</option>
-          <option value="Credit">Jama</option>
+          <option  value="Debit">بنام</option>
+          <option value="Credit">جمع</option>
         </select>
 
         <!-- add name="DebitCreditVal" -->
@@ -72,7 +72,7 @@
         <!-- add name="Details" -->
         <input id="Details" name="Details" type="text" class="form-control"><br><br>
 
-        <button class="btn btn-success btn-sm">Submit</button>
+        <button class="btn btn-success btn-sm">Save</button>
       </div>
     </form>
   </div>
@@ -113,11 +113,11 @@
     $('#CustomerName').val(custName);   // send name in form
 
     if (custPayDue > 0) {
-    $('#paymentType').text('Jama');
+    $('#paymentType').text('جمع');
     $('#paymentTypeInput').val('Credit');  // this will go in req.body
 } else {
     $('#custPayDue').val(custPayDue * (-1));
-    $('#paymentType').text('Banam');
+    $('#paymentType').text('بنام');
     $('#paymentTypeInput').val('Debit');   // this will go in req.body
 }
 
@@ -126,6 +126,7 @@
   </script>
 </body>
 </html>
+
 
 
 
