@@ -19,7 +19,7 @@
   </style>
 </head>
 <body>
- <%- include('includes/sidebar', { user: user, activePage: 'payments' }) %>
+ <%- include('includes/sidebar', {SHOPNAME:shopName, user: user, activePage: 'payments' }) %>
 
  <div class="content">
     <form action="/createSuppLedger" method="POST">
@@ -126,6 +126,7 @@
   </script>
 </body>
 </html>
+
 
 
 
