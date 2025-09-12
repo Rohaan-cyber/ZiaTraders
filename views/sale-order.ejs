@@ -54,7 +54,7 @@
 <body>
   <%- include('includes/sidebar', { SHOPNAME:shopName, activePage: 'sale-order' }) %>
   <div class="content">
-    <%- include('includes/header', { pageTitle: '', user: user }) %>
+    <%- include('includes/header', { pageTitle: 'فروخت بل', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
     <% if (success_msg && success_msg.length) { %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -73,7 +73,7 @@
     <div class="container my-5">
         <div class="card">
             <div class="card-header">
-                🛒 
+                🛒 غلہ منڈی فروخت بل
             </div>
             <div class="card-body">
                 <form id="PurchaseOrder" action="/Sale-Order" method="POST">
@@ -84,7 +84,7 @@
                             <input style="background-color: lightgray" class="form-control" name="orderDate" value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly >
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label"></label><br>
+                            <label class="form-label">خرید کنندہ</label><br>
                              <select id="customerDropdown" name="customerDropdown" class="form-select">
   <option value="">Select a customer</option>
   <% customers.forEach(function(cust) { %>
@@ -99,7 +99,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Truck Number</label>
+                            <label class="form-label">ٹرک نمبر</label>
                             <input type="text" class="form-control" id="TruckNumber" name="truckNumber" onblur="Validate('TruckNumberErr', 'TruckNumber')">
                             <span id="TruckNumberErr"></span>
                         </div>
@@ -115,35 +115,35 @@
                     </div>
 
                     <!-- Commodity Details -->
-                    <h5 class="mt-4 mb-3 text-success">🌾 یجنسا تافسییل</h5>
+                    <h5 class="mt-4 mb-3 text-success">🌾 جنس تفصیل </h5>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label class="form-label">Commodity (اجناس)</label>
+                            <label class="form-label">جنس</label>
                             <input style="background-color: lightgray" type="text" class="form-control" name="commodity" value="Mungi" readonly>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Computer Kanta Weight (KG)</label>
+                            <label class="form-label">کانٹا وزن (کلو)</label>
                             <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight" onblur="Validate('ConKanWeightErr', 'conkanWeight')">
                             <span id="ConKanWeightErr"></span>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Tadad</label>
+                            <label class="form-label">تعداد</label>
                             <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label class="form-label">Bara kanta kaat</label>
+                            <label class="form-label">بڑا کانٹا کاٹ</label>
                             <input  type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat" onblur="Validate('BaraKanKaatErr', 'bKANKAAT')">
                             <span id="BaraKanKaatErr"></span>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Bar dana kaat</label>
+                            <label class="form-label">بار دانہ کاٹ</label>
                             <input type="number" class="form-control" value="0" id="bDanaKaat" name="bdanaKaat" onblur="Validate('BaraDanaKaatErr', 'bDanaKaat')">
                             <span id="BaraDanaKaatErr"></span>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Kam wazan jurmana</label>
+                            <label class="form-label">کم وزن جرمانہ</label>
                             <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="kamWazJarmana" onblur="Validate('KamWzanJurmanErr', 'KamWazanJurmana')">
                             <span id="KamWzanJurmanErr"></span>
                         </div>
@@ -151,12 +151,12 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Rate per Unit (ریٹ فی یونٹ)</label>
+                            <label class="form-label">ریٹ فی یونٹ</label>
                             <input type="number" class="form-control" id="rate" name="rate" placeholder="e.g. 2500" onblur="Validate('RateErr', 'rate')">
                             <span id="RateErr"></span>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Kamee Rate</label>
+                            <label class="form-label">کمی ریٹ</label>
                             <input type="number" class="form-control" id="KameeRate" name="kameeRate" value="0" onblur="Validate('KameeRateErr', 'KameeRate')">
                             <span id="KameeRateErr"></span>
                         </div>
@@ -164,12 +164,12 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Kul Damage</label>
+                            <label class="form-label">کل ڈیمج</label>
                             <input type="number" class="form-control" placeholder="0" value="10" id="KulDMG" name="kulDmg" onblur="Validate('KulDMGErr', 'KulDMG')">
                             <span id="KulDMGErr"></span>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Safi Damage</label>
+                            <label class="form-label">صافی ڈیمج</label>
                             <input type="number" class="form-control" placeholder="0" id="SafiDMG" name="safiDmg" onblur="Validate('SafiDMGErr', 'SafiDMG')">
                             <span id="SafiDMGErr"></span>
                         </div>
@@ -177,12 +177,12 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Kul Kachar</label>
+                            <label class="form-label">کل کاچر</label>
                             <input type="number" value="1" class="form-control" placeholder="0" id="KulKachr" name="kulKachr" onblur="Validate('KulKacharErr', 'KulKachr')">
                             <span id="KulKacharErr"></span>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Safi Kachar</label>
+                            <label class="form-label">صافی کاچر</label>
                             <input type="number" class="form-control" placeholder="0" id="SafiKachar" name="safiKachar" onblur="Validate('SafiKacharErr', 'SafiKachar')">
                             <span id="SafiKacharErr"></span>
                         </div>
@@ -190,12 +190,12 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Kul Nami</label>
+                            <label class="form-label">کل نمی</label>
                             <input type="number" value="1" class="form-control" placeholder="0" id="KulNami" name="kulNami" onblur="Validate('KulNamiErr', 'KulNami')">
                             <span id="KulNamiErr"></span>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Safi Nami</label>
+                            <label class="form-label">صافی نمی</label>
                             <input type="number" class="form-control" placeholder="0" id="SafiNami" name="safiNami" onblur="Validate('SafiNamiErr', 'SafiNami')">
                             <span id="SafiNamiErr"></span>
                         </div>
@@ -203,47 +203,47 @@
                     <hr style="border: solid 5px black">
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label class="form-label">Manfi Wazan</label>
+                            <label class="form-label">منفی وزن</label>
                             <input style="background-color: lightgray" type="number" class="form-control" placeholder="0" id="ManfiWazan" name="manfiWazan" readonly>
                         </div>
                     </div>
 
                     <!-- Payment Terms -->
-                    <h5 class="mt-4 mb-3 text-success">💰 Payment Terms</h5>
+                    <h5 class="mt-4 mb-3 text-success">💰 پیمنٹ </h5>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Safi wazan</label>
+                            <label class="form-label">صافی وزن</label>
                             <input style="background-color: lightgray" type="number" id="safiWazan" name="safiWazan" class="form-control" readonly>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Karaya Kanta</label>
+                            <label class="form-label">کرایہ کانٹا</label>
                             <input type="number" class="form-control" value="0" id="KarayaKanta" name="karayaKanta" onblur="Validate('KarayaKantaErr', 'KarayaKanta')">
                             <span id="KarayaKantaErr"></span>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Safi Rate</label>
+                            <label class="form-label">صافی ریٹ</label>
                             <input style="background-color: lightgray" type="number" id="SafiRate" value="0" name="safiRate" class="form-control" readonly>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Munshiana</label>
+                            <label class="form-label">منشیانہ</label>
                             <input type="number" class="form-control" id="munshiana" name="munshiana" onblur="Validate('MunshianaErr', 'munshiana')">
                             <span id="MunshianaErr"></span>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Kul Raqm</label>
+                            <label class="form-label">کل رقم</label>
                             <input style="background-color: lightgray" type="number" value="0" id="KulRaqm" name="kulRaqm" class="form-control" readonly>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Mazdoori</label>
+                            <label class="form-label">مزدوری</label>
                             <input type="number" class="form-control" name="mazdoori" id="Mazdoori" onblur="Validate('MazdooriErr', 'Mazdoori')">
                             <span id="MazdooriErr"></span>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Mazdoori Rate</label>
+                            <label class="form-label">مزدوری ریٹ</label>
                             <input type="number" value="10" class="form-control" id="MazdooriRate" name="mazdooriRate" onblur="Validate('MazdooriRateErr', 'MazdooriRate')">
                             <span id="MazdooriRateErr"></span>
                         </div>
@@ -251,11 +251,11 @@
                     <hr style="border: solid 5px black">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Safi Raqm</label>
+                            <label class="form-label">صافی رقم</label>
                             <input style="background-color: lightgray" type="number" id="SafiRaqm" name="safiRaqm" class="form-control" readonly>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Brokeri</label>
+                            <label class="form-label">بروکری</label>
                             <input type="number" id="KharKunindaBRoker" name="KharKunindaBroker" class="form-control" onblur="Validate('KharKuBrokerErr', 'KharKunindaBRoker')">
                             <span id="KharKuBrokerErr"></span>
                         </div>
@@ -263,13 +263,13 @@
 
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            <label class="form-label">Kul Safi Raqm</label>
+                            <label class="form-label">کل صافی رقم</label>
                             <input style="background-color: lightgray" type="number" id="KulSafiRaqm" name="kulSafiRaqm" class="form-control" readonly>
                         </div>
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" class="btn btn-custom" >Submit Purchase Order</button>
+                        <button type="submit" class="btn btn-custom" >Save Sale Order</button>
                     </div>
                 </form>
             </div>
