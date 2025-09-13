@@ -347,7 +347,7 @@
             let MillrBagTxtBx = document.getElementById("tadad")
             let MillrBrokeriTxtBx = document.getElementById("KharKunindaBRoker")
             let MillrMunshianaTxtBx = document.getElementById("munshiana")
-            let MillrBarDanaKaat = document.getElementById("bDanaKaat")
+           // let MillrBarDanaKaat = document.getElementById("bDanaKaat")
             let MillrMazdooriTxtBx = document.getElementById("Mazdoori")
             let MillrMazdooriRate = document.getElementById("MazdooriRate")
         //    let MillrSafiDamage = document.getElementById("SafiDMG")
@@ -361,7 +361,7 @@
       //      let MillrKamWzanJurmana = document.getElementById("KamWazanJurmana")
             let MillrRate = document.getElementById("rate")
             let MillrSafiRate = document.getElementById("SafiRate")
-      //      let MillrKamiRate = document.getElementById("KameeRate")
+          let MillrKamiRate = document.getElementById("KameeRate")
             let MillrRaqm = document.getElementById("KulRaqm")
             let MillrSafiBill = document.getElementById("SafiRaqm")
             let MillrComputerCharges = document.getElementById("KarayaKanta")
@@ -380,17 +380,17 @@
          //       testroundoff = roundoff(parseFloat(MillrSafiNami.value))
          //       MillrSafiNami.value = testroundoff
          //       MillrManfiWazn.value = parseFloat(MillrSafiDamage.value) + parseFloat(MillrSafiKachr.value) + parseFloat(MillrSafiNami.value)
-                MillrSafiWazan.value = iweight - parseFloat(MillrBaraKantaKatTxtBx.value) - parseFloat(MillrBarDanaKaat.value) 
+                MillrSafiWazan.value = iweight - parseFloat(MillrBaraKantaKatTxtBx.value)
                 let MILLERRATE = parseFloat(MillrRate.value)
                 let MILLERsafiWazan = parseFloat(MillrSafiWazan.value)
                 if (MILLERRATE > 0 && MILLERsafiWazan > 0) {
                     MillrSafiRate.value = MILLERRATE - MillrKamiRate.value
-                    let customerRaqm = parseFloat(MillrSafiWazan.value) / 40 * parseFloat(MillrSafiRate.value)
+                  let customerRaqm = parseFloat(MillrSafiWazan.value) / 40 * parseFloat(MillrSafiRate.value)
                     testroundoff = roundoff(customerRaqm)
                     MillrRaqm.value = testroundoff
                     MillrSafiBill.value = MillrRaqm.value - MillrComputerCharges.value - MillrMunshianaTxtBx.value - MillrMazdooriTxtBx.value
                     MillrBaqayaRaqm.value = parseFloat(MillrSafiBill.value) + parseFloat(MillrBrokeriTxtBx.value)
-             //       customerRaqm = customerRaqm - parseFloat(MillrComputerCharges) - parseFloat(MillrMunshianaTxtBx) - parseFloat(MillrMazdooriTxtBx) - parseFloat(MillrBrokeriTxtBx) 
+                    // customerRaqm = customerRaqm - parseFloat(MillrComputerCharges) - parseFloat(MillrMunshianaTxtBx) - parseFloat(MillrMazdooriTxtBx) - parseFloat(MillrBrokeriTxtBx) 
                 }
             }
 
