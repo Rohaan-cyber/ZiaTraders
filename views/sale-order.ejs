@@ -56,6 +56,24 @@
   <div class="content">
     <%- include('includes/header', { pageTitle: 'فروخت بل', user: user }) %>
     <%- include('includes/flash', { success_msg: success_msg, error_msg: error_msg }) %>
+<% if (success_msg && success_msg.length) { %>
+  <% success_msg.forEach(function(msg) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% }) %>
+<% } %>
+
+<% if (error_msg && error_msg.length) { %>
+  <% error_msg.forEach(function(msg) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% }) %>
+<% } %>
+
     <% if (success_msg && success_msg.length) { %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= success_msg %>
