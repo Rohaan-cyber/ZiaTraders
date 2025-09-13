@@ -362,6 +362,7 @@ exports.SaleOrder = async function(req, res) {
  customers = await customer.findCustomers()  // fetch only this user's customers
  let saleOrder = new SaleOrder()
 let orderNo = await saleOrder.GetorderNo()
+    let Inventory = await saleOrder.FINDINVENTORY()
     res.render('sale-order', {
          user: req.session.user,
              shopName: req.session.user.ShopName,
@@ -370,6 +371,7 @@ let orderNo = await saleOrder.GetorderNo()
         activePage: "Sale-Order",
         customers,
         orderNo,
+        Inventory,
         TodayDate: new Date()
     })
 }
@@ -418,5 +420,6 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
