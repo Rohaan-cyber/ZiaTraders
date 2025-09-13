@@ -92,7 +92,8 @@ SuppLedger.prototype.SuppfindTransactionById = async function () {
         try {
             const SuppTransactions = await suppLedgerCollection()
                 .find({
-                    Date: { $gte: startOfDay, $lte: endOfDay }
+                    Date: { $gte: startOfDay, $lte: endOfDay },
+                      authorId: new ObjectId(this.userid)
                 })
                 .toArray();
             return SuppTransactions;
@@ -119,5 +120,6 @@ SuppLedger.prototype.createSuppTran = function () {
 }
 
 module.exports = SuppLedger;
+
 
 
