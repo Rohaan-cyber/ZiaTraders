@@ -62,7 +62,7 @@ SaleOrder.prototype.validate = async function () {
     }
 };
 
-// Create Sale order (with inventory check)
+// Create Sale order (without inventory check)
 SaleOrder.prototype.createSaleOrder = function () {
     return new Promise(async (resolve, reject) => {
         try {
@@ -87,15 +87,15 @@ SaleOrder.prototype.createSaleOrder = function () {
                 bKanKaat: parseFloat(this.data.bKanKaat),
 
                 // Include commented-out fields (no default 0)
-                bDanaKaat: this.data.bDanaKaat ? parseFloat(this.data.bDanaKaat) : undefined,
-                KamWazanJurmana: this.data.KamWazanJurmana ? parseFloat(this.data.KamWazanJurmana) : undefined,
-                KulDMG: this.data.KulDMG ? parseFloat(this.data.KulDMG) : undefined,
-                SafiDMG: this.data.SafiDMG ? parseFloat(this.data.SafiDMG) : undefined,
-                KulKachr: this.data.KulKachr ? parseFloat(this.data.KulKachr) : undefined,
-                SafiKachar: this.data.SafiKachar ? parseFloat(this.data.SafiKachar) : undefined,
-                KulNami: this.data.KulNami ? parseFloat(this.data.KulNami) : undefined,
-                SafiNami: this.data.SafiNami ? parseFloat(this.data.SafiNami) : undefined,
-                ManfiWazan: this.data.ManfiWazan ? parseFloat(this.data.ManfiWazan) : undefined,
+          //      bDanaKaat: this.data.bDanaKaat ? parseFloat(this.data.bDanaKaat) : undefined,
+            //    KamWazanJurmana: this.data.KamWazanJurmana ? parseFloat(this.data.KamWazanJurmana) : undefined,
+              //  KulDMG: this.data.KulDMG ? parseFloat(this.data.KulDMG) : undefined,
+                // SafiDMG: this.data.SafiDMG ? parseFloat(this.data.SafiDMG) : undefined,
+                // KulKachr: this.data.KulKachr ? parseFloat(this.data.KulKachr) : undefined,
+                // SafiKachar: this.data.SafiKachar ? parseFloat(this.data.SafiKachar) : undefined,
+               // KulNami: this.data.KulNami ? parseFloat(this.data.KulNami) : undefined,
+            //    SafiNami: this.data.SafiNami ? parseFloat(this.data.SafiNami) : undefined,
+              //  ManfiWazan: this.data.ManfiWazan ? parseFloat(this.data.ManfiWazan) : undefined,
 
                 rate: parseFloat(this.data.rate),
                 kameeRate: parseFloat(this.data.kameeRate),
@@ -132,21 +132,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                 authorId: new ObjectId(this.userid)
             });
 
-            // Inventory check
-            const Currentinv = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) });
-            const currentValue = Currentinv ? Currentinv.value : 0;
-
-            if (currentValue >= dataForDb.tadad) {
-                await inventoryCollection().findOneAndUpdate(
-                    { userid: new ObjectId(this.userid) },
-                    { $inc: { value: -dataForDb.tadad } },
-                    { upsert: true, returnDocument: "after" }
-                );
-            } else {
-                return reject(`Not enough inventory. Available: ${currentValue}, Requested: ${dataForDb.tadad}`);
-            }
-
-            // Insert sale order
+            // Insert sale order (no inventory check)
             await SaleOrderCollection().insertOne(dataForDb);
 
             resolve();
@@ -157,10 +143,9 @@ SaleOrder.prototype.createSaleOrder = function () {
 };
 
 SaleOrder.prototype.FINDINVENTORY = async function() {
-     let inventory = await inventoryCollection().findOne({ userid: this.userid })
-    
+    const inventory = await inventoryCollection().findOne({ userid: this.userid });
     console.log("userid type:", typeof this.userid, this.userid);
-    return inventory || 0
-}
+    return inventory || 0;
+};
 
 module.exports = SaleOrder;
