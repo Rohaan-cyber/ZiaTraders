@@ -119,7 +119,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                     Date: new Date(),
                     CustomerName: supplierName,
                     BillNumber: this.data.billNo,
-                    Debit: total * (-1),
+                    Debit: this.data.kulSafiRaqm,
                     Credit: 0,
                     Details: "Order Number: " + this.data.orderNo,
                     Remaining: total
