@@ -122,7 +122,8 @@ SaleOrder.prototype.createSaleOrder = function () {
                     Debit: this.data.kulSafiRaqm,
                     Credit: 0,
                     Details: "Order Number: " + this.data.orderNo,
-                    Remaining: total
+                    Remaining: total,
+                    authorId: new ObjectId(this.userid)
                 })
                 await SaleOrderCollection().insertOne(this.data);
                    await inventoryCollection().findOneAndUpdate(
