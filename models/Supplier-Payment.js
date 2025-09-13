@@ -72,7 +72,8 @@ SuppLedger.prototype.createSuppLedger = function () {
                 Debit: debitvalue,
                 Credit: creditvalue,
                 Details: this.legdata.Details,
-                Remaining: total
+                Remaining: total,
+                authorId: new ObjectId(this.userid)  
             };
             await suppLedgerCollection().insertOne(this.legdata);
             suplliersCollection().findOneAndUpdate({ supName: supplierName }, { $set: { supPayDue: total } })
@@ -118,4 +119,5 @@ SuppLedger.prototype.createSuppTran = function () {
 }
 
 module.exports = SuppLedger;
+
 
