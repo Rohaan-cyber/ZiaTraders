@@ -120,7 +120,7 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
 
                 await SupplierCollection().findOneAndUpdate(
                     { supName: supplierName },
-                    { $set: { supPayDue: newBalance } }
+                    { $set: { supPayDue: total } }
                 )
 
                 // ✅ Supplier ledger entry
