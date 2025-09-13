@@ -129,7 +129,7 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                     SupplierName: supplierName,
                     BillNumber: this.data.billNo,
                     Debit: 0 // amount you owe supplier
-                    Credit: total * (-1),
+                    Credit: this.data.kulSafiRaqm,
                     Details: "Order Number: " + this.data.orderNo,
                     Remaining: total
                 })
