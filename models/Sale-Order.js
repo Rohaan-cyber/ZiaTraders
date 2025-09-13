@@ -144,8 +144,9 @@ SaleOrder.prototype.createSaleOrder = function () {
 
 SaleOrder.prototype.FINDINVENTORY = async function() {
     const inventory = await inventoryCollection().findOne({ userid: this.userid });
-    console.log("userid type:", typeof this.userid, this.userid);
-    return inventory || 0;
+    console.log("FINDINVENTORY query:", { userid: this.userid });
+    console.log("Found inventory:", inventory);
+    return inventory || { value: 0 };
 };
 
 module.exports = SaleOrder;
