@@ -131,7 +131,8 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                     Debit: 0,
                     Credit: this.data.kulSafiRaqm,
                     Details: "Order Number: " + this.data.orderNo,
-                    Remaining: total
+                    Remaining: total,
+                         authorId: new ObjectId(this.userid)
                 })
 
                 // ✅ Save purchase order
