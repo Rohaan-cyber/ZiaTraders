@@ -410,7 +410,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
        let purchaseOrder = new PurchaseOrder(req.body, req.session.user.id);
     try {
         let PurChaseOrder = await purchaseOrder.createpurchaseOrder();
-        req.flash("success_msg", PurChaseOrder);
+        req.flash("success_msg", "Purchase order created successfully");
         res.redirect("/purchase-order-page");  // go back to the form page
     } catch (errors) {
         // errors could be array of strings
@@ -418,4 +418,5 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
