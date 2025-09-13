@@ -358,14 +358,16 @@ exports.createSuppTransaction = async function (req, res) {
 }
 
 exports.SaleOrder = async function(req, res) {
- let customer = new Customer({}, req.session.user.id)  // <-- pass user id
- customers = await customer.findCustomers()  // fetch only this user's customers
- let saleOrder = new SaleOrder()
-let orderNo = await saleOrder.GetorderNo()
-    let Inventory = await saleOrder.FINDINVENTORY()
+    let customer = new Customer({}, req.session.user.id);  // pass user id
+    let customers = await customer.findCustomers();       // fetch this user's customers
+
+    let saleOrder = new SaleOrder({}, req.session.user.id); // pass user id here too
+    let orderNo = await saleOrder.GetorderNo();
+    let Inventory = await saleOrder.FINDINVENTORY();
+
     res.render('sale-order', {
-         user: req.session.user,
-             shopName: req.session.user.ShopName,
+        user: req.session.user,
+        shopName: req.session.user.ShopName,
         success_msg: req.flash("success_msg"),
         error_msg: req.flash("error_msg"),
         activePage: "Sale-Order",
@@ -373,8 +375,9 @@ let orderNo = await saleOrder.GetorderNo()
         orderNo,
         Inventory,
         TodayDate: new Date()
-    })
+    });
 }
+
 
 exports.PurchaseOrder = async function (req, res) {
     let supplier = new Supplier({}, req.session.user.id)  // <-- pass user id
@@ -420,6 +423,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
