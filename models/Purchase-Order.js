@@ -135,16 +135,13 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                          authorId: new ObjectId(this.userid)
                 })
 
-                // ✅ Save purchase order
-                await PurchaseOrderCollection().insertOne(this.data)
-
-                // ✅ Update inventory with upsert
-                await inventoryCollection().findOneAndUpdate(
+                                await inventoryCollection().findOneAndUpdate(
                     { userid: new ObjectId(this.userid) },        // filter by user
                     { $inc: { value: this.data.tadad } }, // increment Mungi stock
                     { upsert: true, returnDocument: "after" } // create if not exists
                 )
-
+                // ✅ Save purchase order
+                await PurchaseOrderCollection().insertOne(this.data)
                 resolve("Purchase order created successfully")
             } else {
                 reject(this.errors.join(", "))
