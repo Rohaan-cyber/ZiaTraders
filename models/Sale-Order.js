@@ -158,6 +158,7 @@ SaleOrder.prototype.createSaleOrder = function () {
 
 SaleOrder.prototype.FINDINVENTORY = async function() {
      let inventory = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) })
+    console.log(inventory)
     return inventory || 0
 }
 
