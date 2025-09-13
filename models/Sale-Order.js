@@ -3,7 +3,7 @@ const { ObjectId } = require("mongodb");
 
 let SaleOrder = function (data, userid) {
     this.data = data;
-    this.userid = userid
+    this.userid = userid;
     this.errors = [];
 };
 
@@ -12,15 +12,15 @@ function SaleOrderCollection() {
 }
 
 function SupplierCollection() {
-    return getDb().collection("customers")
+    return getDb().collection("customers");
 }
 
 function supplierLedgerCollection() {
-    return getDb().collection("customerLedger")
+    return getDb().collection("customerLedger");
 }
 
 function inventoryCollection() {
-    return getDb().collection("inventory")
+    return getDb().collection("inventory");
 }
 
 // Get the next order number
@@ -29,20 +29,14 @@ async function maxNumber() {
         .aggregate([{ $group: { _id: null, max: { $max: "$orderNo" } } }])
         .toArray();
 
-    const max = result[0]?.max ?? 0; // default 0 if none
+    const max = result[0]?.max ?? 0;
     return max + 1;
 }
 
 // Get supplier name by ID
 async function getSupplierNameById(supplierId) {
-    if (!ObjectId.isValid(supplierId)) {
-        throw new Error("Invalid supplierId: " + supplierId);
-    }
-
-    const supplier = await getDb()
-        .collection("customers")
-        .findOne({ _id: new ObjectId(supplierId) });
-
+    if (!ObjectId.isValid(supplierId)) throw new Error("Invalid supplierId: " + supplierId);
+    const supplier = await SupplierCollection().findOne({ _id: new ObjectId(supplierId) });
     return supplier ? supplier.custName : "";
 }
 
@@ -51,9 +45,12 @@ SaleOrder.prototype.GetorderNo = async function () {
     return await maxNumber();
 };
 
+// Validation (without inventory check)
 SaleOrder.prototype.validate = async function () {
-    if (!this.data.CustomerName || this.data.CustomerName.trim() === "") {
-        this.errors.push("Supplier Name must not be empty");
+    this.errors = [];
+
+    if (!this.data.customerDropdown || this.data.customerDropdown.trim() === "") {
+        this.errors.push("Customer must be selected");
     }
 
     if (!this.data.ConKanWeight || this.data.ConKanWeight.trim() === "") {
@@ -65,8 +62,7 @@ SaleOrder.prototype.validate = async function () {
     }
 };
 
-
-// Create Sale order
+// Create Sale order (with inventory check)
 SaleOrder.prototype.createSaleOrder = function () {
     return new Promise(async (resolve, reject) => {
         try {
@@ -76,79 +72,49 @@ SaleOrder.prototype.createSaleOrder = function () {
             const newOrderNo = await maxNumber();
             const supplierName = await getSupplierNameById(this.data.customerDropdown);
 
-            // Destructure original this.data safely
-            const {
-                billNo,
-                orderDate,
-                customerDropdown,
-                truckNumber,
-                commodity,
-                ConKanWeight,
-                tadad,
-                bKanKaat,
-                // bdanaKaat,
-                // kamWazJarmana,
-                rate,
-                kameeRate,
-                // kulDmg,
-                // safiDmg,
-                // kulKachr,
-                // safiKachar,
-                // kulNami,
-                // safiNami,
-                // manfiWazan,
-                safiWazan,
-                karayaKanta,
-                safiRate,
-                munshiana,
-                kulRaqm,
-                mazdoori,
-                mazdooriRate,
-                safiRaqm,
-                KharKunindaBroker,
-                kulSafiRaqm
-            } = this.data;
-
-            // Reassign this.data safely
-            this.data = {
+            // Prepare this.data for DB
+            const dataForDb = {
                 userid: this.userid,
                 orderNo: newOrderNo,
-                billNo: billNo,
-                Date: new Date(orderDate),
-                customerId: new ObjectId(customerDropdown),
+                billNo: this.data.billNo,
+                Date: new Date(this.data.orderDate),
+                customerId: new ObjectId(this.data.customerDropdown),
                 customerName: supplierName,
-                truckNumber: truckNumber,
-                commodity: commodity,
-                ConKanWeight: parseFloat(ConKanWeight),
-                tadad: parseFloat(tadad),
-                bKanKaat: parseFloat(bKanKaat),
-                // bdanaKaat: parseFloat(bdanaKaat),
-                // kamWazJarmana: parseFloat(kamWazJarmana),
-                rate: parseFloat(rate),
-                kameeRate: parseFloat(kameeRate),
-                // kulDmg: parseFloat(kulDmg),
-                // safiDmg: parseFloat(safiDmg),
-                // kulKachr: parseFloat(kulKachr),
-                // safiKachar: parseFloat(safiKachar),
-                // kulNami: parseFloat(kulNami),
-                // safiNami: parseFloat(safiNami),
-                // manfiWazan: parseFloat(manfiWazan),
-                safiWazan: parseFloat(safiWazan),
-                karayaKanta: parseFloat(karayaKanta),
-                safiRate: parseFloat(safiRate),
-                munshiana: parseFloat(munshiana),
-                kulRaqm: parseFloat(kulRaqm),
-                Mazdoori: parseFloat(mazdoori),
-                mazdooriRate: parseFloat(mazdooriRate),
-                safiRaqm: parseFloat(safiRaqm),
-                KharKunindaBroker: parseFloat(KharKunindaBroker),
-                kulSafiRaqm: parseFloat(kulSafiRaqm),
+                truckNumber: this.data.truckNumber,
+                commodity: this.data.commodity,
+                ConKanWeight: parseFloat(this.data.ConKanWeight),
+                tadad: parseFloat(this.data.tadad),
+                bKanKaat: parseFloat(this.data.bKanKaat),
+
+                // Include commented-out fields (no default 0)
+                bDanaKaat: this.data.bDanaKaat ? parseFloat(this.data.bDanaKaat) : undefined,
+                KamWazanJurmana: this.data.KamWazanJurmana ? parseFloat(this.data.KamWazanJurmana) : undefined,
+                KulDMG: this.data.KulDMG ? parseFloat(this.data.KulDMG) : undefined,
+                SafiDMG: this.data.SafiDMG ? parseFloat(this.data.SafiDMG) : undefined,
+                KulKachr: this.data.KulKachr ? parseFloat(this.data.KulKachr) : undefined,
+                SafiKachar: this.data.SafiKachar ? parseFloat(this.data.SafiKachar) : undefined,
+                KulNami: this.data.KulNami ? parseFloat(this.data.KulNami) : undefined,
+                SafiNami: this.data.SafiNami ? parseFloat(this.data.SafiNami) : undefined,
+                ManfiWazan: this.data.ManfiWazan ? parseFloat(this.data.ManfiWazan) : undefined,
+
+                rate: parseFloat(this.data.rate),
+                kameeRate: parseFloat(this.data.kameeRate),
+                safiWazan: parseFloat(this.data.safiWazan || 0),
+                karayaKanta: parseFloat(this.data.karayaKanta || 0),
+                safiRate: parseFloat(this.data.safiRate || 0),
+                munshiana: parseFloat(this.data.munshiana || 0),
+                kulRaqm: parseFloat(this.data.kulRaqm || 0),
+                Mazdoori: parseFloat(this.data.Mazdoori || 0),
+                mazdooriRate: parseFloat(this.data.mazdooriRate || 0),
+                safiRaqm: parseFloat(this.data.safiRaqm || 0),
+                KharKunindaBroker: parseFloat(this.data.KharKunindaBroker || 0),
+                kulSafiRaqm: parseFloat(this.data.kulSafiRaqm || 0)
             };
 
-            // Update customer ledger and pay due
-            let customer = await SupplierCollection().findOne({ custName: supplierName });
-            let custPaydue = customer ? customer.custPayDue || 0 : 0;
-            let total = custPaydue - this.data.kulSafiRaqm;
+            // Update customer ledger
+            const customer = await SupplierCollection().findOne({ custName: supplierName });
+            const custPaydue = customer ? customer.custPayDue || 0 : 0;
+            const total = custPaydue - (dataForDb.kulSafiRaqm || 0);
 
             await SupplierCollection().findOneAndUpdate(
                 { custName: supplierName },
@@ -158,32 +124,30 @@ SaleOrder.prototype.createSaleOrder = function () {
             await supplierLedgerCollection().insertOne({
                 Date: new Date(),
                 CustomerName: supplierName,
-                BillNumber: this.data.billNo,
-                Debit: this.data.kulSafiRaqm,
+                BillNumber: dataForDb.billNo,
+                Debit: dataForDb.kulSafiRaqm || 0,
                 Credit: 0,
-                Details: "Order Number: " + this.data.orderNo,
+                Details: "Order Number: " + dataForDb.orderNo,
                 Remaining: total,
                 authorId: new ObjectId(this.userid)
             });
 
-            // Insert sale order
-            await SaleOrderCollection().insertOne(this.data);
-
-            // ✅ Inventory decrement
+            // Inventory check
             const Currentinv = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) });
             const currentValue = Currentinv ? Currentinv.value : 0;
 
-            if (currentValue >= this.data.tadad) {
-                const result = await inventoryCollection().findOneAndUpdate(
+            if (currentValue >= dataForDb.tadad) {
+                await inventoryCollection().findOneAndUpdate(
                     { userid: new ObjectId(this.userid) },
-                    { $inc: { value: -this.data.tadad } },
+                    { $inc: { value: -dataForDb.tadad } },
                     { upsert: true, returnDocument: "after" }
                 );
-
-                console.log("Updated Inventory:", result.value.value);
             } else {
-                return reject("Not enough inventory");
+                return reject(`Not enough inventory. Available: ${currentValue}, Requested: ${dataForDb.tadad}`);
             }
+
+            // Insert sale order
+            await SaleOrderCollection().insertOne(dataForDb);
 
             resolve();
         } catch (err) {
@@ -191,6 +155,5 @@ SaleOrder.prototype.createSaleOrder = function () {
         }
     });
 };
-
 
 module.exports = SaleOrder;
