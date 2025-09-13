@@ -66,79 +66,131 @@ SaleOrder.prototype.validate = async function () {
 };
 
 
-// Create purchase order
+// Create Sale order
 SaleOrder.prototype.createSaleOrder = function () {
     return new Promise(async (resolve, reject) => {
         try {
-            await this.validate()
-            if (!this.errors.length) {
-                const newOrderNo = await maxNumber();
-                const supplierName = await getSupplierNameById(this.data.customerDropdown);
+            await this.validate();
+            if (this.errors.length) return reject(this.errors.join(", "));
 
-                this.data = {
-                    userid: this.userid,
-                    orderNo: newOrderNo,
-                    billNo: this.data.billNo,
-                    Date: new Date(this.data.orderDate),
-                    customerId: new ObjectId(this.data.customerDropdown),
-                    customerName: supplierName,
-                    truckNumber: this.data.truckNumber,
-                    commodity: this.data.commodity,
-                    ConKanWeight: parseFloat(this.data.ConKanWeight),
-                    tadad: parseFloat(this.data.tadad),
-                    bKanKaat: parseFloat(this.data.bKanKaat),
-                    // bdanaKaat: parseFloat(this.data.bdanaKaat),
-                    // kamWazJarmana: parseFloat(this.data.kamWazJarmana),
-                    rate: parseFloat(this.data.rate),
-                    kameeRate: parseFloat(this.data.kameeRate),
-                  //  kulDmg: parseFloat(this.data.kulDmg),
-                    // safiDmg: parseFloat(this.data.safiDmg),
-                 //   kulKachr: parseFloat(this.data.kulKachr),
-                   // safiKachar: parseFloat(this.data.safiKachar),
-                    // kulNami: parseFloat(this.data.kulNami),
-                    // safiNami: parseFloat(this.data.safiNami),
-                    // manfiWazan: parseFloat(this.data.manfiWazan),
-                    safiWazan: parseFloat(this.data.safiWazan),
-                    karayaKanta: parseFloat(this.data.karayaKanta),
-                    safiRate: parseFloat(this.data.safiRate),
-                    munshiana: parseFloat(this.data.munshiana),
-                    kulRaqm: parseFloat(this.data.kulRaqm),
-                    Mazdoori: parseFloat(this.data.mazdoori),
-                    mazdooriRate: parseFloat(this.data.mazdooriRate),
-                    safiRaqm: parseFloat(this.data.safiRaqm),
-                    KharKunindaBroker: parseFloat(this.data.KharKunindaBroker),
-                    kulSafiRaqm: parseFloat(this.data.kulSafiRaqm),
-                };
+            const newOrderNo = await maxNumber();
+            const supplierName = await getSupplierNameById(this.data.customerDropdown);
 
+            // Destructure original this.data safely
+            const {
+                billNo,
+                orderDate,
+                customerDropdown,
+                truckNumber,
+                commodity,
+                ConKanWeight,
+                tadad,
+                bKanKaat,
+                // bdanaKaat,
+                // kamWazJarmana,
+                rate,
+                kameeRate,
+                // kulDmg,
+                // safiDmg,
+                // kulKachr,
+                // safiKachar,
+                // kulNami,
+                // safiNami,
+                // manfiWazan,
+                safiWazan,
+                karayaKanta,
+                safiRate,
+                munshiana,
+                kulRaqm,
+                mazdoori,
+                mazdooriRate,
+                safiRaqm,
+                KharKunindaBroker,
+                kulSafiRaqm
+            } = this.data;
 
-                let customer = await SupplierCollection().findOne({ custName: supplierName })
-                let custPaydue = customer.custPayDue || 0
-                let total = custPaydue - this.data.kulSafiRaqm
-                await SupplierCollection().findOneAndUpdate({ custName: supplierName }, { $set: { custPayDue: total } })
-                await supplierLedgerCollection().insertOne({
-                    Date: new Date(),
-                    CustomerName: supplierName,
-                    BillNumber: this.data.billNo,
-                    Debit: this.data.kulSafiRaqm,
-                    Credit: 0,
-                    Details: "Order Number: " + this.data.orderNo,
-                    Remaining: total,
-                    authorId: new ObjectId(this.userid)
-                })
-                await SaleOrderCollection().insertOne(this.data);
-                   await inventoryCollection().findOneAndUpdate(
-       { userid: new ObjectId(this.userid) },        // filter by user
-       { $inc: { value: -this.data.tadad } }, // increment Mungi stock
-       { upsert: true, returnDocument: "after" } // create if not exists
-   )
-                resolve();
+            // Reassign this.data safely
+            this.data = {
+                userid: this.userid,
+                orderNo: newOrderNo,
+                billNo: billNo,
+                Date: new Date(orderDate),
+                customerId: new ObjectId(customerDropdown),
+                customerName: supplierName,
+                truckNumber: truckNumber,
+                commodity: commodity,
+                ConKanWeight: parseFloat(ConKanWeight),
+                tadad: parseFloat(tadad),
+                bKanKaat: parseFloat(bKanKaat),
+                // bdanaKaat: parseFloat(bdanaKaat),
+                // kamWazJarmana: parseFloat(kamWazJarmana),
+                rate: parseFloat(rate),
+                kameeRate: parseFloat(kameeRate),
+                // kulDmg: parseFloat(kulDmg),
+                // safiDmg: parseFloat(safiDmg),
+                // kulKachr: parseFloat(kulKachr),
+                // safiKachar: parseFloat(safiKachar),
+                // kulNami: parseFloat(kulNami),
+                // safiNami: parseFloat(safiNami),
+                // manfiWazan: parseFloat(manfiWazan),
+                safiWazan: parseFloat(safiWazan),
+                karayaKanta: parseFloat(karayaKanta),
+                safiRate: parseFloat(safiRate),
+                munshiana: parseFloat(munshiana),
+                kulRaqm: parseFloat(kulRaqm),
+                Mazdoori: parseFloat(mazdoori),
+                mazdooriRate: parseFloat(mazdooriRate),
+                safiRaqm: parseFloat(safiRaqm),
+                KharKunindaBroker: parseFloat(KharKunindaBroker),
+                kulSafiRaqm: parseFloat(kulSafiRaqm),
+            };
+
+            // Update customer ledger and pay due
+            let customer = await SupplierCollection().findOne({ custName: supplierName });
+            let custPaydue = customer ? customer.custPayDue || 0 : 0;
+            let total = custPaydue - this.data.kulSafiRaqm;
+
+            await SupplierCollection().findOneAndUpdate(
+                { custName: supplierName },
+                { $set: { custPayDue: total } }
+            );
+
+            await supplierLedgerCollection().insertOne({
+                Date: new Date(),
+                CustomerName: supplierName,
+                BillNumber: this.data.billNo,
+                Debit: this.data.kulSafiRaqm,
+                Credit: 0,
+                Details: "Order Number: " + this.data.orderNo,
+                Remaining: total,
+                authorId: new ObjectId(this.userid)
+            });
+
+            // Insert sale order
+            await SaleOrderCollection().insertOne(this.data);
+
+            // ✅ Inventory decrement
+            const Currentinv = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) });
+            const currentValue = Currentinv ? Currentinv.value : 0;
+
+            if (currentValue >= this.data.tadad) {
+                const result = await inventoryCollection().findOneAndUpdate(
+                    { userid: new ObjectId(this.userid) },
+                    { $inc: { value: -this.data.tadad } },
+                    { upsert: true, returnDocument: "after" }
+                );
+
+                console.log("Updated Inventory:", result.value.value);
             } else {
-                reject(this.errors.join(", "));
+                return reject("Not enough inventory");
             }
+
+            resolve();
         } catch (err) {
             reject(err);
         }
     });
 };
+
 
 module.exports = SaleOrder;
