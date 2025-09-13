@@ -97,7 +97,8 @@ CustLedger.prototype.findTransactionById = async function () {
     try {
         const CustTransactions = await custLedgerCollection()
             .find({
-                Date: { $gte: startOfDay, $lte: endOfDay }
+                Date: { $gte: startOfDay, $lte: endOfDay },
+                authorId: new ObjectId(this.userid)
             })
             .toArray();
         return CustTransactions;
@@ -124,4 +125,5 @@ CustLedger.prototype.createCustomerTran =  function () {
 }
 
 module.exports = CustLedger;
+
 
