@@ -116,7 +116,7 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                 // ✅ Supplier PayDue update
                 let supplier = await SupplierCollection().findOne({ supName: supplierName })
                 let suppPaydue = supplier?.supPayDue ?? 0
-                let newBalance = suppPaydue - this.data.kulSafiRaqm
+                let total = suppPaydue + this.data.kulSafiRaqm
 
                 await SupplierCollection().findOneAndUpdate(
                     { supName: supplierName },
@@ -128,10 +128,10 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                     Date: new Date(),
                     SupplierName: supplierName,
                     BillNumber: this.data.billNo,
-                    Debit: this.data.kulSafiRaqm, // amount you owe supplier
-                    Credit: 0,
+                    Debit: 0 // amount you owe supplier
+                    Credit: total * (-1),
                     Details: "Order Number: " + this.data.orderNo,
-                    Remaining: newBalance
+                    Remaining: total
                 })
 
                 // ✅ Save purchase order
