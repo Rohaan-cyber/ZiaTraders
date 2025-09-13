@@ -84,9 +84,9 @@
                             <input style="background-color: lightgray" class="form-control" name="orderDate" value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly >
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">فروخت کنندہ</label><br>
+                            <label class="form-label">پرٹی نام</label><br>
                              <select id="customerDropdown" name="customerDropdown" class="form-select">
-  <option value="">Select a supplier</option>
+  <option value=""></option>
   <% suppliers.forEach(function(supp) { %>
     <option value="<%= supp._id %>" data-name="<%= supp.supName %>">
       <%= supp.supName %>
