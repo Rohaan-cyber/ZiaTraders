@@ -156,4 +156,9 @@ SaleOrder.prototype.createSaleOrder = function () {
     });
 };
 
+SaleOrder.prototype.FINDINVENTORY = async function() {
+     let inventory = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) })
+    return inventory || 0
+}
+
 module.exports = SaleOrder;
