@@ -2,9 +2,9 @@ const { getDb } = require("../db");
 const ObjectId = require('mongodb').ObjectId
 
 
-let SuppLedger = function (legdata) {
+let SuppLedger = function (legdata, userid) {
     this.legdata = legdata;
-    console.log(legdata)
+    this.userid = userid
     this.errors = [];
 };
 
@@ -120,6 +120,7 @@ SuppLedger.prototype.createSuppTran = function () {
 }
 
 module.exports = SuppLedger;
+
 
 
 
