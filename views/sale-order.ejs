@@ -335,10 +335,8 @@
             MillrMunshianaTxtBx.value = 500 * iweight / 11000
             testroundoff = roundoff(parseFloat(MillrMunshianaTxtBx.value))
             MillrMunshianaTxtBx.value = testroundoff
-            MillrMazdooriTxtBx.value = parseFloat(MillrMazdooriRate.value) * bag
-            testroundoff = roundoff(MillrMazdooriTxtBx.value)
-            MillrMazdooriTxtBx.value = testroundoff
-        //    CALC()
+
+       CALC()
         }
 
         function CALC() {
@@ -391,7 +389,10 @@
                     MillrSafiBill.value = MillrRaqm.value - MillrComputerCharges.value - MillrMunshianaTxtBx.value - MillrMazdooriTxtBx.value
                     MillrBaqayaRaqm.value = parseFloat(MillrSafiBill.value) + parseFloat(MillrBrokeriTxtBx.value)
                     // customerRaqm = customerRaqm - parseFloat(MillrComputerCharges) - parseFloat(MillrMunshianaTxtBx) - parseFloat(MillrMazdooriTxtBx) - parseFloat(MillrBrokeriTxtBx) 
-                }
+                           MillrMazdooriTxtBx.value = parseFloat(MillrMazdooriRate.value) * bag
+            testroundoff = roundoff(MillrMazdooriTxtBx.value)
+            MillrMazdooriTxtBx.value = testroundoff                
+                       }
             }
 
         }
