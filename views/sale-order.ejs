@@ -144,10 +144,14 @@
                             <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight" onblur="Validate('ConKanWeightErr', 'conkanWeight')">
                             <span id="ConKanWeightErr"></span>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">تعداد</label>
                             <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0" readonly>
                         </div>
+            <div class="col-md-1">
+    <label>Stock</label>
+<input style="background-color: lightgray"  type="text" value="<%= Inventory %>" readonly>
+            </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
