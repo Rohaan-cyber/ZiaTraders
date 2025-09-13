@@ -147,7 +147,7 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                 reject(this.errors.join(", "))
             }
         } catch (err) {
-            reject(err)
+          reject(err.message || JSON.stringify(err)); // ensures a string is passed
         }
     })
 }
