@@ -432,6 +432,10 @@
         })
 
         document.getElementById("Mazdoori").addEventListener("keyup", function () {
+      let MillrComputerweightTxtBx = document.getElementById("conkanWeight")
+      let iweight = parseFloat(MillrComputerweightTxtBx.value)
+            let bag = Math.round(iweight / 50)
+             document.getElementById("MazdooriRate").value = document.getElementById("Mazdoori") / bag
             CALC()
         })
 
