@@ -100,6 +100,12 @@ User.prototype.register = function () {
                value: 0,
                userid: new ObjectId(Inserteddata.insertedId),
            })
+            
+               let person = await inventoryCollection().insertOne({
+                commodity: "Bajara",
+               value: 0,
+               userid: new ObjectId(Inserteddata.insertedId),
+           })
             resolve()
         } else {
             reject(this.errors)
@@ -130,6 +136,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
