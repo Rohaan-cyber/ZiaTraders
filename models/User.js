@@ -39,7 +39,7 @@ User.prototype.cleanUp = async function () {
         username: this.data.username.trim().toLowerCase(),
         isAdmin: this.data.isAdmin,
         password: this.data.password,
-        ShopName: this.data.ShopName
+        ShopName: this.data.ShopName,
         cash: 0,
         bank1: 0,
         bank2: 0.
@@ -154,6 +154,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
