@@ -95,13 +95,13 @@ User.prototype.register = function () {
             this.data.password = await bcrypt.hash(this.data.password, salt)
 
          let Inserteddata = await usersCollection().insertOne(this.data)
-           let person = await inventoryCollection().insertOne({
+           let mungi = await inventoryCollection().insertOne({
                 commodity: "Mungi",
                value: 0,
                userid: new ObjectId(Inserteddata.insertedId),
            })
             
-               let person = await inventoryCollection().insertOne({
+               let bajara = await inventoryCollection().insertOne({
                 commodity: "Bajara",
                value: 0,
                userid: new ObjectId(Inserteddata.insertedId),
@@ -136,6 +136,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
