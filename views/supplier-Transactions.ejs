@@ -69,7 +69,7 @@
      <% } else { %>
     <td><%= txn.Remaining * (-1) %> بنام</td>
    <%  } %>
-<td><%= txn.PaymentType %></td>
+<td><%= txn.paymentType %></td>
       </tr>
     <% }) %>
   <% } else { %>
@@ -104,6 +104,7 @@ $('#supplierDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
