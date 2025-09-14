@@ -114,9 +114,21 @@ User.prototype.register = function () {
 }
 
 User.prototype.findInventory = async function () {
-    let inventory = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) })
+    let inventory = await inventoryCollection().findOne({ 
+        userid: new ObjectId(this.userid),
+        commodity: "Mungi"
+    })
     return inventory || 0
 }
+
+User.prototype.findInventoryBajara = async function () {
+    let inventory = await inventoryCollection().findOne({ 
+        userid: new ObjectId(this.userid),
+        commodity: "Bajara"
+    })
+    return inventory || 0
+}
+
 
 // model method for login check
 User.prototype.login = function () {
@@ -136,6 +148,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
