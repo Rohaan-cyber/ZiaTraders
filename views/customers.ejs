@@ -78,13 +78,15 @@
           <td><%= cust.customerId %></td>
           <td><%= cust.custName %></td>
 
-          <td>
-          <% if (cust.custPayDue > 0) { %>
-                   <%= Number(cust.custPayDue).toLocaleString() || 0 %>  جمع
-         <%  } else { %>
-       <%= Number(cust.custPayDue * (-1)).toLocaleString() || 0 %>  بنام
-        <%  } %>
-        </td>
+    <td>
+  <% if (cust.custPayDue && cust.custPayDue > 0) { %>
+    <%= Number(cust.custPayDue).toLocaleString() %> جمع
+  <% } else if (cust.custPayDue) { %>
+    <%= Number(-cust.custPayDue).toLocaleString() %> بنام
+  <% } else { %>
+    0
+  <% } %>
+</td>
 
           <td><%= cust.custPhoneNum || '-' %></td>
           <td><%= cust.custArea || '-' %></td>
@@ -168,6 +170,7 @@ form.addEventListener('submit', async function(e) {
 
 </body>
 </html>
+
 
 
 
