@@ -40,6 +40,12 @@ User.prototype.cleanUp = async function () {
         isAdmin: this.data.isAdmin,
         password: this.data.password,
         ShopName: this.data.ShopName
+        cash: 0,
+        bank1: 0,
+        bank2: 0.
+        bank3: 0,
+        bank4: 0,
+        bank5: 0
     }
 }
 
@@ -148,6 +154,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
