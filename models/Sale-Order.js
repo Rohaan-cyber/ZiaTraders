@@ -131,7 +131,11 @@ SaleOrder.prototype.createSaleOrder = function () {
                 Remaining: total,
                 authorId: new ObjectId(this.userid)
             });
-
+                          await inventoryCollection().findOneAndUpdate(
+                    { userid: new ObjectId(this.userid) },        // filter by user
+                    { $inc: { value: -this.data.tadad } }, // increment Mungi stock
+                    { upsert: true, returnDocument: "after" } // create if not exists
+                )
             // Insert sale order (no inventory check)
             await SaleOrderCollection().insertOne(dataForDb);
 
