@@ -77,8 +77,24 @@ User.prototype.validate = function () {
         if (this.data.ShopName == ""){
            this.errors.push("Shop Name cannot be empty.")   
         }
+        // banks
+       if (this.data.bank1 == ""){
+           this.errors.push("Bank 1 cannot be empty.")   
+        }
+         if (this.data.bank2 == ""){
+           this.errors.push("Bank 2 cannot be empty.")   
+        }
+         if (this.data.bank3 == ""){
+           this.errors.push("Bank 3 cannot be empty.")   
+        }
+            if (this.data.bank4 == ""){
+           this.errors.push("Bank 4 cannot be empty.")   
+        }
+            if (this.data.bank5 == ""){
+           this.errors.push("Bank 5 cannot be empty.")   
+        }
 
-        
+        // admin
         if (!this.data.isAdmin) {
             this.errors.push("Please select if user is Admin or not.");
         } else if (this.data.isAdmin !== "yes" && this.data.isAdmin !== "no") {
@@ -158,6 +174,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
