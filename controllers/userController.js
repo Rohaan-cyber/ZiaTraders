@@ -26,10 +26,27 @@ exports.login = function (req, res) {
     let user = new User(req.body);
     user.login()
         .then(userDoc => {
-            req.session.user = { id: userDoc._id, username: userDoc.username, ShopName: userDoc.ShopName || 'You dont have a shop name' };
+            // Start with standard fields
+            let sessionUser = {
+                id: userDoc._id,
+                username: userDoc.username,
+                ShopName: userDoc.ShopName || 'You dont have a shop name',
+                cash: userDoc.cash || 0
+            };
+
+            // Add dynamic banks automatically
+            const excludedKeys = ['_id', 'username', 'ShopName', 'password', 'isAdmin', 'serialNumber', 'cash'];
+            Object.keys(userDoc).forEach(key => {
+                if (!excludedKeys.includes(key)) {
+                    sessionUser[key] = userDoc[key]; // add bankName: value
+                }
+            });
+
+            req.session.user = sessionUser;
+console.log(req.session.user)
             req.session.save(() => {
                 req.flash('success_msg', `✅ Welcome ${userDoc.username}! You are logged in.`);
-                res.redirect("/dashboard"); // <- redirect to dashboard
+                res.redirect("/dashboard");
             });
         })
         .catch((err) => {
@@ -37,6 +54,7 @@ exports.login = function (req, res) {
             res.redirect("/");  // login page
         });
 };
+
 
 
 // Fixed logout
@@ -50,5 +68,6 @@ exports.logout = function (req, res) {
         res.redirect("/");
     }
 };
+
 
 
