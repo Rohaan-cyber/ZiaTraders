@@ -49,6 +49,7 @@
          <th>جمع</th>
          <th>تفصیل</th>
          <th>بقایا</th>
+         <th>Payment Type</th>
         </tr>
       </thead>
 <tbody>
@@ -68,7 +69,7 @@
      <% } else { %>
     <td><%= txn.Remaining * (-1) %> بنام</td>
    <%  } %>
-  
+<td><%= txn.PaymentType %></td>
       </tr>
     <% }) %>
   <% } else { %>
@@ -103,6 +104,7 @@ $('#supplierDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
