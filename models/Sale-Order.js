@@ -71,6 +71,7 @@ SaleOrder.prototype.createSaleOrder = function () {
 
             const newOrderNo = await maxNumber();
             const supplierName = await getSupplierNameById(this.data.customerDropdown);
+                            const Currentinv = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) });
 
             // Prepare this.data for DB
             const dataForDb = {
@@ -111,6 +112,16 @@ SaleOrder.prototype.createSaleOrder = function () {
                 kulSafiRaqm: parseFloat(this.data.kulSafiRaqm || 0)
             };
 
+                        const currentValue = Currentinv ? Currentinv.value : 0;
+            if (currentValue >= dataForDb.tadad) {
+                    await inventoryCollection().findOneAndUpdate(
+                    { userid: new ObjectId(this.userid) },        // filter by user
+                    { $inc: { value: -dataForDb.tadad } }, // increment Mungi stock
+                    { upsert: true, returnDocument: "after" } // create if not exists
+                )
+            } else {
+                return reject("Inventory is smaller than tadad");
+            }
             // Update customer ledger
             const customer = await SupplierCollection().findOne({ custName: supplierName });
             const custPaydue = customer ? customer.custPayDue || 0 : 0;
@@ -131,11 +142,8 @@ SaleOrder.prototype.createSaleOrder = function () {
                 Remaining: total,
                 authorId: new ObjectId(this.userid)
             });
-                          await inventoryCollection().findOneAndUpdate(
-                    { userid: new ObjectId(this.userid) },        // filter by user
-                    { $inc: { value: -this.data.tadad } }, // increment Mungi stock
-                    { upsert: true, returnDocument: "after" } // create if not exists
-                )
+            // inventory check
+
             // Insert sale order (no inventory check)
             await SaleOrderCollection().insertOne(dataForDb);
 
