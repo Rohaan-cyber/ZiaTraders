@@ -41,7 +41,7 @@ let inventoryData = await user.findInventory();  // inventoryData is either {com
 let inventoryValue = 0;
 
 if (inventoryData && inventoryData.value !== undefined) {
-    inventoryValue = inventoryData.value.toLocaleString();
+    inventoryValue = inventoryData.value;
 }
 
         res.render("dashboard", {
@@ -423,6 +423,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
