@@ -33,7 +33,9 @@ let srNo = 1;
 
 User.prototype.cleanUp = async function () {
    await maxNumber()
-
+        let bank1Value = this.data.bank1
+    let bank1 = `${bank1Value}: 0`
+     console.log("Bank 1" + bank1 + "Bank Value" + bank1Value)
     this.data = {
         serialNumber: maxValue1,
         username: this.data.username.trim().toLowerCase(),
@@ -41,7 +43,7 @@ User.prototype.cleanUp = async function () {
         password: this.data.password,
         ShopName: this.data.ShopName,
         cash: 0,
-        bank1: 0,
+        bank1,
         bank2: 0,
         bank3: 0,
         bank4: 0,
@@ -85,7 +87,7 @@ User.prototype.validate = function () {
             if (usernameExists) this.errors.push("That username is already taken.")
         }
 
-
+            this.cleanUp()
         resolve()
     })
 }
@@ -154,6 +156,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
