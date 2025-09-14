@@ -72,6 +72,7 @@ SuppLedger.prototype.createSuppLedger = function () {
                 Debit: debitvalue,
                 Credit: creditvalue,
                 Details: this.legdata.Details,
+                paymentType: this.data.PaymentType,
                 Remaining: total,
                 authorId: new ObjectId(this.userid)  
             };
@@ -120,6 +121,7 @@ SuppLedger.prototype.createSuppTran = function () {
 }
 
 module.exports = SuppLedger;
+
 
 
 
