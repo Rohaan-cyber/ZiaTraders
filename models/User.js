@@ -108,7 +108,9 @@ User.prototype.register = function () {
 }
 
 User.prototype.findInventory = async function () {
+    console.log("User ID type:", typeof this.userid, "value:", this.userid);
     let inventory = await inventoryCollection().findOne({ userid: new ObjectId(this.userid) })
+    console.log("Inventory found:", inventory);
     return inventory || 0
 }
 
@@ -130,6 +132,7 @@ User.prototype.login = function () {
 }
 
 module.exports = User
+
 
 
 
