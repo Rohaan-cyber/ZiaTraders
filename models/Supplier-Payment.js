@@ -29,6 +29,7 @@ SuppLedger.prototype.validate = function () {
     if (!this.legdata.Date) this.errors.push("Date Cannot be empty");
     if (!this.legdata.BillNumber) this.errors.push("Bill Number Cannot be Empty");
     if (!this.legdata.DebitCredit) this.errors.push("Debit / Credit cannot be empty");
+        if (!this.legdata.PaymentType) this.errors.push("Payment Type cannot be empty");
     if (!this.legdata.DebitCreditVal) this.errors.push("field cannot be empty");
     if (!this.legdata.Details) this.errors.push("Details cannot be empty");
 };
@@ -72,7 +73,7 @@ SuppLedger.prototype.createSuppLedger = function () {
                 Debit: debitvalue,
                 Credit: creditvalue,
                 Details: this.legdata.Details,
-                paymentType: this.data.PaymentType,
+                paymentType: this.legdata.PaymentType,
                 Remaining: total,
                 authorId: new ObjectId(this.userid)  
             };
@@ -121,6 +122,7 @@ SuppLedger.prototype.createSuppTran = function () {
 }
 
 module.exports = SuppLedger;
+
 
 
 
