@@ -136,7 +136,7 @@ PurchaseOrder.prototype.createpurchaseOrder = function () {
                 })
 
                                 await inventoryCollection().findOneAndUpdate(
-                    { userid: new ObjectId(this.userid) },        // filter by user
+                    { userid: new ObjectId(this.userid), commodity: this.data.commodity },
                     { $inc: { value: this.data.tadad } }, // increment Mungi stock
                     { upsert: true, returnDocument: "after" } // create if not exists
                 )
