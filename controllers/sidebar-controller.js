@@ -44,6 +44,12 @@ if (inventoryData && inventoryData.value !== undefined) {
     inventoryValue = inventoryData.value;
 }
 
+        let bajaraData = await user.findInventoryBajara()
+        let inventoryBajara = 0;
+
+        if (bajaraData && bajaraData.value !== undefined) {
+    inventoryBajara = bajaraData.value;
+}
         res.render("dashboard", {
             user: req.session.user,
             shopName: req.session.user.ShopName,
@@ -56,6 +62,7 @@ if (inventoryData && inventoryData.value !== undefined) {
             recentCustTransactions,
             recentSuppTransactions,
             inventory: inventoryValue,
+            bajara: inventoryBajara,
             activePage: "dashboard"
         })
     } catch (err) {
@@ -423,6 +430,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
