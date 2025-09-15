@@ -120,7 +120,7 @@ SaleOrder.prototype.createSaleOrder = function () {
                     { upsert: true, returnDocument: "after" } // create if not exists
                 )
             } else {
-                await inventoryCollection.findOneAndUpdate(
+                await inventoryCollection().findOneAndUpdate(
                     {userid: new ObjectId(this.userid), commodity: dataForDb.commodity },
                     {$set: {value: 0}}
                 )
