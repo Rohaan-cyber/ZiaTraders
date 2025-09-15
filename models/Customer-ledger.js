@@ -31,6 +31,7 @@ CustLedger.prototype.validate = function () {
     if (!this.legdata.DebitCredit) this.errors.push("Debit / Credit cannot be empty");
     if (!this.legdata.DebitCreditVal) this.errors.push("field cannot be empty");
     if (!this.legdata.Details) this.errors.push("Details cannot be empty");
+    if (!this.legdata.PaymentType) this.errors.push("Payment Type cannot be empty");
 };
 
 CustLedger.prototype.createCustLedger = function () {
@@ -73,6 +74,7 @@ CustLedger.prototype.createCustLedger = function () {
                 Credit: creditvalue,
                 Details: this.legdata.Details,
                 Remaining: total,
+                paymentType: this.legdata.PaymentType,
                 authorId: new ObjectId(this.userid),   // ✅ keep consistent with query
                 createdAt: new Date()                  // ✅ add timestamp
             };
@@ -125,5 +127,6 @@ CustLedger.prototype.createCustomerTran =  function () {
 }
 
 module.exports = CustLedger;
+
 
 
