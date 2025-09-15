@@ -115,12 +115,15 @@ SaleOrder.prototype.createSaleOrder = function () {
                         const currentValue = Currentinv ? Currentinv.value : 0;
             if (currentValue >= dataForDb.tadad) {
                     await inventoryCollection().findOneAndUpdate(
-                    { userid: new ObjectId(this.userid) },        // filter by user
+                    { userid: new ObjectId(this.userid), commodity: dataForDb.commodity },        // filter by user and stock
                     { $inc: { value: -dataForDb.tadad } }, // increment Mungi stock
                     { upsert: true, returnDocument: "after" } // create if not exists
                 )
             } else {
-                return reject("Inventory is smaller than tadad");
+                await inventoryCollection.findOneAndUpdate(
+                    {userid: new ObjectId(this.userid), commodity: dataForDb.commodity },
+                    {$set: {value: 0}}
+                )
             }
             // Update customer ledger
             const customer = await SupplierCollection().findOne({ custName: supplierName });
