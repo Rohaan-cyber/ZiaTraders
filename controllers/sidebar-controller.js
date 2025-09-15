@@ -246,12 +246,22 @@ exports.payments = async (req, res) => {
 exports.CustomerPayment = async (req, res) => {
     let customer = new Customer({}, req.session.user.id)  // <-- pass user id
     customers = await customer.findCustomers()  // fetch only this user's customers
+
+    // banks 
+  const db = require("../db").getDb();
+    const userDoc = await db.collection("users").findOne({ _id: new ObjectId(req.session.user.id) });
+
+    // Extract bank names (exclude reserved fields)
+    const reserved = ["_id", "username", "password", "ShopName", "cash", "isAdmin", "serialNumber"];
+    const bankNames = Object.keys(userDoc).filter(k => !reserved.includes(k));
+    
     res.render('Customer-Payment-Page', {
         user: req.session.user,
              shopName: req.session.user.ShopName,
         customers,
         customerPayDue: customer.custPayDue,
         TodayDate: new Date(),
+        bankNames,
     })
 }
 
@@ -439,6 +449,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
