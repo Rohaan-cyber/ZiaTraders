@@ -1,7 +1,7 @@
 ﻿const CustLedger = require('../models/Customer-ledger')
 const Customer = require('../models/Customers')
 const Supplier = require('../models/Suppliers')
-const { ObjectId } = require('mongodb').ObjectId
+const  ObjectId  = require('mongodb').ObjectId
 const SuppLedger = require('../models/Supplier-Payment')
 let PurchaseOrder = require('../models/Purchase-Order')
 let SaleOrder = require('../models/Sale-Order')
@@ -439,6 +439,7 @@ exports.CreatePurchaseOrder = async function (req, res) {
         res.redirect("/purchase-order-page");  // back to form
     }
 };
+
 
 
 
