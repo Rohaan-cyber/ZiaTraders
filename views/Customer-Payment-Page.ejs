@@ -64,7 +64,12 @@
           <option  value="Debit">بنام</option>
           <option value="Credit">جمع</option>
         </select>
-
+   <select id="PaymentTYPE" name="PaymentType" class="form-select" style="width: 200px; display: inline">
+          <option value="cash">Cash</option>
+          <% bankNames.forEach(function(bank) { %>
+    <option value="<%= bank %>"><%= bank %></option>
+  <% }) %>
+        </select>
         <!-- add name="DebitCreditVal" -->
         <input id="DebitCreditVal" name="DebitCreditVal" class="form-control" style="width:200px; display:inline" type="text"><br><br>
         
@@ -126,6 +131,7 @@
   </script>
 </body>
 </html>
+
 
 
 
