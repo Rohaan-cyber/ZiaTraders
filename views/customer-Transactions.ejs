@@ -49,6 +49,7 @@
          <th>جمع</th>
          <th>تفصیل</th>
          <th>بقایہ</th>
+         <th>Payment Type</th>
         </tr>
       </thead>
 <tbody>
@@ -64,6 +65,7 @@
         <%= Math.abs(txn.Remaining) || 0 %>
         <%= txn.Remaining > 0 ? "جمع" : "بنام" %>
       </td>
+  <td><%= txn.paymentType %></td>
     </tr>
   <% }) %>
 <% } else { %>
@@ -99,6 +101,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
