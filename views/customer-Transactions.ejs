@@ -65,7 +65,7 @@
         <%= Math.abs(txn.Remaining) || 0 %>
         <%= txn.Remaining > 0 ? "جمع" : "بنام" %>
       </td>
-  <td><%= txn.paymentType %></td>
+  <td><%= txn.paymentType || "No payment type" %></td>
     </tr>
   <% }) %>
 <% } else { %>
@@ -101,6 +101,7 @@ $('#customerDropdown').on('change', function() {
   </script>
 </body>
 </html>
+
 
 
 
