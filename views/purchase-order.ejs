@@ -294,7 +294,7 @@
             let MillrMazdooriTxtBx = document.getElementById("Mazdoori")
             let MillrMazdooriRate = document.getElementById("MazdooriRate")
             let iweight = parseFloat(MillrComputerweightTxtBx.value)
-            let bag = Math.round(iweight / 50)
+            let bag = Math.round(iweight / 100)
             MillrBagTxtBx.value = bag
             MillrBaraKantaKatTxtBx.value = parseFloat(MillrBagTxtBx.value * 40 / 220)
             let testroundoff = roundoff(parseFloat(MillrBaraKantaKatTxtBx.value));
@@ -338,7 +338,7 @@
             let MillrComputerCharges = document.getElementById("KarayaKanta")
             let MillrBaqayaRaqm = document.getElementById("KulSafiRaqm")
             let iweight = parseFloat(MillrComputerweightTxtBx.value)
-            let bag = Math.round(iweight / 50)
+            let bag = Math.round(iweight / 100)
            
             if (iweight > 0 && iweight != "") {   
                 MillrSafiDamage.value = (77 / 220) * bag * parseFloat(MillrKulDamage.value)
