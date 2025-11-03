@@ -137,7 +137,7 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label">جنس</label>
-<select class="form-select" name="commodity">
+<select class="form-select" name="commodity" id="commodity">
 <option value="Mungi">Mungi</option>
 <option value="Bajara">Bajara</option>
 </select>
@@ -160,19 +160,19 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label class="form-label">بڑا کانٹا کاٹ</label>
+                            <label class="form-label" id="bKanKAATlabel">بڑا کانٹا کاٹ</label>
                             <input  type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat" onblur="Validate('BaraKanKaatErr', 'bKANKAAT')">
                             <span id="BaraKanKaatErr"></span>
                         </div>
 <!--
                         <div class="col-md-4">
-                            <label class="form-label">بار دانہ کاٹ</label>
+                            <label class="form-label" id="bDanaKaatlabel">بار دانہ کاٹ</label>
                             <input type="number" class="form-control" value="0" id="bDanaKaat" name="bdanaKaat" onblur="Validate('BaraDanaKaatErr', 'bDanaKaat')">
                             <span id="BaraDanaKaatErr"></span>
                         </div>
 -->
                      <!--   <div class="col-md-4">
-                            <label class="form-label">کم وزن جرمانہ</label>
+                            <label class="form-label" id="KamWazanJurmanalabel">کم وزن جرمانہ</label>
                             <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="kamWazJarmana" onblur="Validate('KamWzanJurmanErr', 'KamWazanJurmana')">
                             <span id="KamWzanJurmanErr"></span>
                         </div>
@@ -195,13 +195,13 @@
 
                <!--     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">کل ڈیمج</label>
+                            <label class="form-label" id="KulDMGlabel">کل ڈیمج</label>
                             <input type="number" class="form-control" placeholder="0" value="10" id="KulDMG" name="kulDmg" onblur="Validate('KulDMGErr', 'KulDMG')">
                             <span id="KulDMGErr"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">صافی ڈیمج</label>
+                            <label class="form-label" id="SafiDMGlabel">صافی ڈیمج</label>
                             <input type="number" class="form-control" placeholder="0" id="SafiDMG" name="safiDmg" onblur="Validate('SafiDMGErr', 'SafiDMG')">
                             <span id="SafiDMGErr"></span>
                         </div>
@@ -210,7 +210,7 @@
 
                   <!--  <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">کل کاچر</label>
+                            <label class="form-label" id="KulKachrlabel">کل کاچر</label>
                             <input type="number" value="1" class="form-control" placeholder="0" id="KulKachr" name="kulKachr" onblur="Validate('KulKacharErr', 'KulKachr')">
                             <span id="KulKacharErr"></span>
                         </div>
@@ -274,12 +274,12 @@
                             <input style="background-color: lightgray" type="number" value="0" id="KulRaqm" name="kulRaqm" class="form-control" readonly>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">مزدوری</label>
+                            <label class="form-label" id="Mazdoorilabel">مزدوری</label>
                             <input type="number" class="form-control" name="mazdoori" id="Mazdoori" onblur="Validate('MazdooriErr', 'Mazdoori')">
                             <span id="MazdooriErr"></span>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">مزدوری ریٹ</label>
+                            <label class="form-label" id="MazdooriRatelabel">مزدوری ریٹ</label>
                             <input type="number" value="10" class="form-control" id="MazdooriRate" name="mazdooriRate" onblur="Validate('MazdooriRateErr', 'MazdooriRate')">
                             <span id="MazdooriRateErr"></span>
                         </div>
@@ -316,6 +316,49 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+ // dropdown field hiding
+     document.getElementById("commodity").addEventListener("change", function() {
+         let commodityVal = document.getElementById("commodity");
+          if(commodityVal.value == "Bajara"){
+                   // field hiding
+                 document.getElementById("bKANKAAT").style.display = "none";
+                 document.getElementById("bDanaKaat").style.display = "none";
+                 document.getElementById("KamWazanJurmana").style.display = "none";
+                 document.getElementById("KulDMG").style.display = "none";
+                 document.getElementById("SafiDMG").style.display = "none";
+                 document.getElementById("KulKachr").style.display = "none";
+                 document.getElementById("Mazdoori").style.display = "none";
+                 document.getElementById("MazdooriRate").style.display = "none";
+                 // label hiding
+                 document.getElementById("bKanKAATlabel").style.display = "none";
+                 document.getElementById("bDanaKaatlabel").style.display = "none";
+                 document.getElementById("KamWazanJurmanalabel").style.display = "none";
+                 document.getElementById("KulDMGlabel").style.display = "none";
+                 document.getElementById("SafiDMGlabel").style.display = "none";
+                 document.getElementById("KulKachrlabel").style.display = "none";
+                 document.getElementById("Mazdoorilabel").style.display = "none";
+                 document.getElementById("MazdooriRatelabel").style.display = "none";
+          } else {
+         // field showing
+         document.getElementById("bKANKAAT").style.display = "block";
+        document.getElementById("bDanaKaat").style.display = "block";
+        document.getElementById("KamWazanJurmana").style.display = "block";
+        document.getElementById("KulDMG").style.display = "block";
+        document.getElementById("SafiDMG").style.display = "block";
+        document.getElementById("KulKachr").style.display = "block";
+        document.getElementById("Mazdoori").style.display = "block";
+        document.getElementById("MazdooriRate").style.display = "block";
+        // label showing
+        document.getElementById("bKanKAATlabel").style.display = "block";
+        document.getElementById("bDanaKaatlabel").style.display = "block";
+        document.getElementById("KamWazanJurmanalabel").style.display = "block";
+        document.getElementById("KulDMGlabel").style.display = "block";
+        document.getElementById("SafiDMGlabel").style.display = "block";
+        document.getElementById("KulKachrlabel").style.display = "block";
+        document.getElementById("Mazdoorilabel").style.display = "block";
+        document.getElementById("MazdooriRatelabel").style.display = "block";
+          }
+     });
         // Calculations
       /*  function CALC3() {
             let MillrComputerweightTxtBx = document.getElementById("conkanWeight")
