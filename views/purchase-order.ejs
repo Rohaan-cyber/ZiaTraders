@@ -285,8 +285,13 @@
     <script>
      // dropdown field hiding
      document.getElementById("commodity").addEventListener("change", function() {
-         alert(commodity.value)
-     } )
+         let commodityVal = document.getElementById("commodity");
+          if(commodityVal.value == "Bajara"){
+                 document.getElementById("bKANKAAT").style.display = "none";
+                 document.getElementById("bDanaKaat").style.display = "none";
+                 document.getElementById("KamWazanJurmana").style.display = "none";
+          }
+     });
         // Calculations
         function CALC3() {
             let MillrComputerweightTxtBx = document.getElementById("conkanWeight")
