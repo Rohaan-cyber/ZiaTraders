@@ -93,272 +93,293 @@
             <div class="card-header">
                 🛒 غلہ منڈی فروخت بل
             </div>
-            <div class="card-body">
-                <form id="PurchaseOrder" action="/Sale-Order" method="POST">
-                    <!-- Buyer & Supplier Info -->
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">تاریخ</label>
-                            <input style="background-color: lightgray" class="form-control" name="orderDate" value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly >
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">پارٹی نام</label><br>
-                             <select id="customerDropdown" name="customerDropdown" class="form-select">
-  <option value=""></option>
-  <% customers.forEach(function(cust) { %>
-    <option value="<%= cust._id %>" data-name="<%= cust.custName %>">
-      <%=  cust.custName %>
-    </option>
-  <% }); %>
-</select>
-<input type="hidden" name="CustomerName" id="CustomerName">
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">ٹرک نمبر</label>
-                            <input type="text" class="form-control" id="TruckNumber" name="truckNumber" onblur="Validate('TruckNumberErr', 'TruckNumber')">
-                            <span id="TruckNumberErr"></span>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">آرڈر نمبر</label>
-                            <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo" value="<%= orderNo  || 0 %>" onblur="Validate('OrderNumberErr', 'OrderNumber')" readonly>
-                            <span id="OrderNumberErr"></span>
-                        </div>
-                                                <div class="col-md-3">
-                            <label class="form-label">بل نمبر</label>
-                            <input  type="text" class="form-control" name="billNo">
-                        </div>
-                    </div>
-
-                    <!-- Commodity Details -->
-                    <h5 class="mt-4 mb-3 text-success">🌾 جنس تفصیل </h5>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label class="form-label">جنس</label>
-<select class="form-select" name="commodity" id="commodity">
-<option value="Mungi">Mungi</option>
-<option value="Bajara">Bajara</option>
-</select>
-                            
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">کانٹا وزن (کلو)</label>
-                            <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight" onblur="Validate('ConKanWeightErr', 'conkanWeight')">
-                            <span id="ConKanWeightErr"></span>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">تعداد</label>
-                            <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0" readonly>
-                        </div>
-            <div class="col-md-2">
-              <label class="form-label">سٹاک</label>
-<input style="background-color: lightgray" class="form-control" type="text" value="<%= Inventory.value %>" readonly>
-
-            </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label class="form-label" id="bKanKAATlabel">بڑا کانٹا کاٹ</label>
-                            <input  type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat" onblur="Validate('BaraKanKaatErr', 'bKANKAAT')">
-                            <span id="BaraKanKaatErr"></span>
-                        </div>
-<!--
-                        <div class="col-md-4">
-                            <label class="form-label" id="bDanaKaatlabel">بار دانہ کاٹ</label>
-                            <input type="number" class="form-control" value="0" id="bDanaKaat" name="bdanaKaat" onblur="Validate('BaraDanaKaatErr', 'bDanaKaat')">
-                            <span id="BaraDanaKaatErr"></span>
-                        </div>
--->
-                     <!--   <div class="col-md-4">
-                            <label class="form-label" id="KamWazanJurmanalabel">کم وزن جرمانہ</label>
-                            <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="kamWazJarmana" onblur="Validate('KamWzanJurmanErr', 'KamWazanJurmana')">
-                            <span id="KamWzanJurmanErr"></span>
-                        </div>
--->
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">ریٹ فی یونٹ</label>
-                            <input type="number" class="form-control" id="rate" name="rate" placeholder="e.g. 2500" onblur="Validate('RateErr', 'rate')">
-                            <span id="RateErr"></span>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">کمی ریٹ</label>
-                            <input type="number" class="form-control" id="KameeRate" name="kameeRate" value="0" onblur="Validate('KameeRateErr', 'KameeRate')">
-                            <span id="KameeRateErr"></span>
-                        </div>
-                    </div>
-
-               <!--     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label" id="KulDMGlabel">کل ڈیمج</label>
-                            <input type="number" class="form-control" placeholder="0" value="10" id="KulDMG" name="kulDmg" onblur="Validate('KulDMGErr', 'KulDMG')">
-                            <span id="KulDMGErr"></span>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label" id="SafiDMGlabel">صافی ڈیمج</label>
-                            <input type="number" class="form-control" placeholder="0" id="SafiDMG" name="safiDmg" onblur="Validate('SafiDMGErr', 'SafiDMG')">
-                            <span id="SafiDMGErr"></span>
-                        </div>
-                    </div>
--->
-
-                  <!--  <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label" id="KulKachrlabel">کل کاچر</label>
-                            <input type="number" value="1" class="form-control" placeholder="0" id="KulKachr" name="kulKachr" onblur="Validate('KulKacharErr', 'KulKachr')">
-                            <span id="KulKacharErr"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">صافی کاچر</label>
-                            <input type="number" class="form-control" placeholder="0" id="SafiKachar" name="safiKachar" onblur="Validate('SafiKacharErr', 'SafiKachar')">
-                            <span id="SafiKacharErr"></span>
-                        </div>
-                    </div> -->
-
-                  <!--  <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">کل نمی</label>
-                            <input type="number" value="1" class="form-control" placeholder="0" id="KulNami" name="kulNami" onblur="Validate('KulNamiErr', 'KulNami')">
-                            <span id="KulNamiErr"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">صافی نمی</label>
-                            <input type="number" class="form-control" placeholder="0" id="SafiNami" name="safiNami" onblur="Validate('SafiNamiErr', 'SafiNami')">
-                            <span id="SafiNamiErr"></span>
-                        </div>
-                    </div>-->
-
-                    <hr style="border: solid 5px black">
-                 <!--   <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label class="form-label">منفی وزن</label>
-                            <input style="background-color: lightgray" type="number" class="form-control" placeholder="0" id="ManfiWazan" name="manfiWazan" readonly>
-                        </div>
-                    </div> -->
-
-                    <!-- Payment Terms -->
-                    <h5 class="mt-4 mb-3 text-success">💰 پیمنٹ </h5>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">صافی وزن</label>
-                            <input style="background-color: lightgray" type="number" id="safiWazan" name="safiWazan" class="form-control" readonly>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">کرایہ کانٹا</label>
-                            <input type="number" class="form-control" value="0" id="KarayaKanta" name="karayaKanta" onblur="Validate('KarayaKantaErr', 'KarayaKanta')">
-                            <span id="KarayaKantaErr"></span>
-                        </div>
-
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">صافی ریٹ</label>
-                            <input style="background-color: lightgray" type="number" id="SafiRate" value="0" name="safiRate" class="form-control" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">منشیانہ</label>
-                            <input type="number" class="form-control" id="munshiana" name="munshiana" onblur="Validate('MunshianaErr', 'munshiana')">
-                            <span id="MunshianaErr"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">کل رقم</label>
-                            <input style="background-color: lightgray" type="number" value="0" id="KulRaqm" name="kulRaqm" class="form-control" readonly>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" id="Mazdoorilabel">مزدوری</label>
-                            <input type="number" class="form-control" name="mazdoori" id="Mazdoori" onblur="Validate('MazdooriErr', 'Mazdoori')">
-                            <span id="MazdooriErr"></span>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label" id="MazdooriRatelabel">مزدوری ریٹ</label>
-                            <input type="number" value="10" class="form-control" id="MazdooriRate" name="mazdooriRate" onblur="Validate('MazdooriRateErr', 'MazdooriRate')">
-                            <span id="MazdooriRateErr"></span>
-                        </div>
-                    </div>
-                    <hr style="border: solid 5px black">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">صافی رقم</label>
-                            <input style="background-color: lightgray" type="number" value="0" id="SafiRaqm" name="safiRaqm" class="form-control" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">بروکری</label>
-                            <input type="number"  value="0"  id="KharKunindaBRoker" name="KharKunindaBroker" class="form-control" onblur="Validate('KharKuBrokerErr', 'KharKunindaBRoker')">
-                            <span id="KharKuBrokerErr"></span>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label class="form-label">کل صافی رقم</label>
-                            <input style="background-color: lightgray" type="number"  value="0" id="KulSafiRaqm" name="kulSafiRaqm" class="form-control" readonly>
-                        </div>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-custom" >Save Sale Order</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+     <div class="card-body">
+  <form id="PurchaseOrder" action="/Sale-Order" method="POST">
+    <!-- Buyer & Supplier Info -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">تاریخ</label>
+        <input style="background-color: lightgray" class="form-control" name="orderDate"
+          value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">پارٹی نام</label><br>
+        <select id="customerDropdown" name="customerDropdown" class="form-select">
+          <option value=""></option>
+          <% customers.forEach(function(cust) { %>
+          <option value="<%= cust._id %>" data-name="<%= cust.custName %>">
+            <%= cust.custName %>
+          </option>
+          <% }); %>
+        </select>
+        <input type="hidden" name="CustomerName" id="CustomerName">
+      </div>
     </div>
 
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
- // dropdown field hiding
-     document.getElementById("commodity").addEventListener("change", function() {
-         let commodityVal = document.getElementById("commodity");
-          if(commodityVal.value == "Bajara"){
-                   // field hiding
-                 document.getElementById("bKANKAAT").style.display = "none";
-                 document.getElementById("bDanaKaat").style.display = "none";
-                 document.getElementById("KamWazanJurmana").style.display = "none";
-                 document.getElementById("KulDMG").style.display = "none";
-                 document.getElementById("SafiDMG").style.display = "none";
-                 document.getElementById("KulKachr").style.display = "none";
-                 document.getElementById("Mazdoori").style.display = "none";
-                 document.getElementById("MazdooriRate").style.display = "none";
-                 // label hiding
-                 document.getElementById("bKanKAATlabel").style.display = "none";
-                 document.getElementById("bDanaKaatlabel").style.display = "none";
-                 document.getElementById("KamWazanJurmanalabel").style.display = "none";
-                 document.getElementById("KulDMGlabel").style.display = "none";
-                 document.getElementById("SafiDMGlabel").style.display = "none";
-                 document.getElementById("KulKachrlabel").style.display = "none";
-                 document.getElementById("Mazdoorilabel").style.display = "none";
-                 document.getElementById("MazdooriRatelabel").style.display = "none";
-          } else {
-         // field showing
-         document.getElementById("bKANKAAT").style.display = "block";
-        document.getElementById("bDanaKaat").style.display = "block";
-        document.getElementById("KamWazanJurmana").style.display = "block";
-        document.getElementById("KulDMG").style.display = "block";
-        document.getElementById("SafiDMG").style.display = "block";
-        document.getElementById("KulKachr").style.display = "block";
-        document.getElementById("Mazdoori").style.display = "block";
-        document.getElementById("MazdooriRate").style.display = "block";
-        // label showing
-        document.getElementById("bKanKAATlabel").style.display = "block";
-        document.getElementById("bDanaKaatlabel").style.display = "block";
-        document.getElementById("KamWazanJurmanalabel").style.display = "block";
-        document.getElementById("KulDMGlabel").style.display = "block";
-        document.getElementById("SafiDMGlabel").style.display = "block";
-        document.getElementById("KulKachrlabel").style.display = "block";
-        document.getElementById("Mazdoorilabel").style.display = "block";
-        document.getElementById("MazdooriRatelabel").style.display = "block";
-          }
-     });
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">ٹرک نمبر</label>
+        <input type="text" class="form-control" id="TruckNumber" name="truckNumber"
+          onblur="Validate('TruckNumberErr', 'TruckNumber')">
+        <span id="TruckNumberErr"></span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">آرڈر نمبر</label>
+        <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo"
+          value="<%= orderNo  || 0 %>" readonly>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">بل نمبر</label>
+        <input type="text" class="form-control" name="billNo">
+      </div>
+    </div>
+
+    <!-- Commodity Details -->
+    <h5 class="mt-4 mb-3 text-success">🌾 جنس تفصیل </h5>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="form-label">جنس</label>
+        <select class="form-select" name="commodity" id="commodity">
+          <option value="Mungi">Mungi</option>
+          <option value="Bajara">Bajara</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">کانٹا وزن (کلو)</label>
+        <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">تعداد</label>
+        <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0"
+          readonly>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">سٹاک</label>
+        <input style="background-color: lightgray" class="form-control" type="text" value="<%= Inventory.value %>"
+          readonly>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="form-label" id="bKANKAATlabel">بڑا کانٹا کاٹ</label>
+        <input type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" id="bDanaKaatlabel">بار دانہ کاٹ</label>
+        <input type="number" class="form-control" value="0" id="bDanaKaat" name="bDanaKaat">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" id="KamWazanJurmanalabel">کم وزن جرمانہ</label>
+        <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="KamWazanJurmana">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">ریٹ فی یونٹ</label>
+        <input type="number" class="form-control" id="rate" name="rate" placeholder="e.g. 2500">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">کمی ریٹ</label>
+        <input type="number" class="form-control" id="KameeRate" name="KameeRate" value="0">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label" id="Mazdoorilabel">مزدوری</label>
+        <input type="number" class="form-control" name="Mazdoori" id="Mazdoori">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" id="MazdooriRatelabel">مزدوری ریٹ</label>
+        <input type="number" value="10" class="form-control" id="MazdooriRate" name="MazdooriRate">
+      </div>
+    </div>
+
+    <hr style="border: solid 5px black">
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-custom">Save Sale Order</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+// Commodity dropdown behavior
+document.getElementById("commodity").addEventListener("change", function() {
+  let commodityVal = document.getElementById("commodity").value;
+
+  const ids = [
+    "bKANKAAT", "bDanaKaat", "KamWazanJurmana",
+    "Mazdoori", "MazdooriRate"
+  ];
+  const labels = [
+    "bKANKAATlabel", "bDanaKaatlabel", "KamWazanJurmanalabel",
+    "Mazdoorilabel", "MazdooriRatelabel"
+  ];
+
+  if (commodityVal === "Bajara") {
+    // hide all
+    ids.forEach(id => document.getElementById(id).style.display = "none");
+    labels.forEach(id => document.getElementById(id).style.display = "none");
+  } else {
+    // show all
+    ids.forEach(id => document.getElementById(id).style.display = "block");
+    labels.forEach(id => document.getElementById(id).style.display = "block");
+  }
+});
+</script>
+<div class="card-body">
+  <form id="PurchaseOrder" action="/Sale-Order" method="POST">
+    <!-- Buyer & Supplier Info -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">تاریخ</label>
+        <input style="background-color: lightgray" class="form-control" name="orderDate"
+          value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">پارٹی نام</label><br>
+        <select id="customerDropdown" name="customerDropdown" class="form-select">
+          <option value=""></option>
+          <% customers.forEach(function(cust) { %>
+          <option value="<%= cust._id %>" data-name="<%= cust.custName %>">
+            <%= cust.custName %>
+          </option>
+          <% }); %>
+        </select>
+        <input type="hidden" name="CustomerName" id="CustomerName">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">ٹرک نمبر</label>
+        <input type="text" class="form-control" id="TruckNumber" name="truckNumber"
+          onblur="Validate('TruckNumberErr', 'TruckNumber')">
+        <span id="TruckNumberErr"></span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">آرڈر نمبر</label>
+        <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo"
+          value="<%= orderNo  || 0 %>" readonly>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">بل نمبر</label>
+        <input type="text" class="form-control" name="billNo">
+      </div>
+    </div>
+
+    <!-- Commodity Details -->
+    <h5 class="mt-4 mb-3 text-success">🌾 جنس تفصیل </h5>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="form-label">جنس</label>
+        <select class="form-select" name="commodity" id="commodity">
+          <option value="Mungi">Mungi</option>
+          <option value="Bajara">Bajara</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">کانٹا وزن (کلو)</label>
+        <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">تعداد</label>
+        <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0"
+          readonly>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">سٹاک</label>
+        <input style="background-color: lightgray" class="form-control" type="text" value="<%= Inventory.value %>"
+          readonly>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="form-label" id="bKANKAATlabel">بڑا کانٹا کاٹ</label>
+        <input type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" id="bDanaKaatlabel">بار دانہ کاٹ</label>
+        <input type="number" class="form-control" value="0" id="bDanaKaat" name="bDanaKaat">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" id="KamWazanJurmanalabel">کم وزن جرمانہ</label>
+        <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="KamWazanJurmana">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">ریٹ فی یونٹ</label>
+        <input type="number" class="form-control" id="rate" name="rate" placeholder="e.g. 2500">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">کمی ریٹ</label>
+        <input type="number" class="form-control" id="KameeRate" name="KameeRate" value="0">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label" id="Mazdoorilabel">مزدوری</label>
+        <input type="number" class="form-control" name="Mazdoori" id="Mazdoori">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" id="MazdooriRatelabel">مزدوری ریٹ</label>
+        <input type="number" value="10" class="form-control" id="MazdooriRate" name="MazdooriRate">
+      </div>
+    </div>
+
+    <hr style="border: solid 5px black">
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-custom">Save Sale Order</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+// Commodity dropdown behavior
+document.getElementById("commodity").addEventListener("change", function() {
+  let commodityVal = document.getElementById("commodity").value;
+
+  const ids = [
+    "bKANKAAT", "bDanaKaat", "KamWazanJurmana",
+    "Mazdoori", "MazdooriRate"
+  ];
+  const labels = [
+    "bKANKAATlabel", "bDanaKaatlabel", "KamWazanJurmanalabel",
+    "Mazdoorilabel", "MazdooriRatelabel"
+  ];
+
+  if (commodityVal === "Bajara") {
+    // hide all
+    ids.forEach(id => document.getElementById(id).style.display = "none");
+    labels.forEach(id => document.getElementById(id).style.display = "none");
+  } else {
+    // show all
+    ids.forEach(id => document.getElementById(id).style.display = "block");
+    labels.forEach(id => document.getElementById(id).style.display = "block");
+  }
+});
         // Calculations
       /*  function CALC3() {
             let MillrComputerweightTxtBx = document.getElementById("conkanWeight")
