@@ -93,150 +93,6 @@
             <div class="card-header">
                 🛒 غلہ منڈی فروخت بل
             </div>
-     <div class="card-body">
-  <form id="PurchaseOrder" action="/Sale-Order" method="POST">
-    <!-- Buyer & Supplier Info -->
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">تاریخ</label>
-        <input style="background-color: lightgray" class="form-control" name="orderDate"
-          value="<%= TodayDate.getMonth() + 1 %>/<%= TodayDate.getDate() %>/<%= TodayDate.getFullYear() %>" readonly>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">پارٹی نام</label><br>
-        <select id="customerDropdown" name="customerDropdown" class="form-select">
-          <option value=""></option>
-          <% customers.forEach(function(cust) { %>
-          <option value="<%= cust._id %>" data-name="<%= cust.custName %>">
-            <%= cust.custName %>
-          </option>
-          <% }); %>
-        </select>
-        <input type="hidden" name="CustomerName" id="CustomerName">
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">ٹرک نمبر</label>
-        <input type="text" class="form-control" id="TruckNumber" name="truckNumber"
-          onblur="Validate('TruckNumberErr', 'TruckNumber')">
-        <span id="TruckNumberErr"></span>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">آرڈر نمبر</label>
-        <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo"
-          value="<%= orderNo  || 0 %>" readonly>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">بل نمبر</label>
-        <input type="text" class="form-control" name="billNo">
-      </div>
-    </div>
-
-    <!-- Commodity Details -->
-    <h5 class="mt-4 mb-3 text-success">🌾 جنس تفصیل </h5>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label class="form-label">جنس</label>
-        <select class="form-select" name="commodity" id="commodity">
-          <option value="Mungi">Mungi</option>
-          <option value="Bajara">Bajara</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">کانٹا وزن (کلو)</label>
-        <input type="number" id="conkanWeight" class="form-control" name="ConKanWeight">
-      </div>
-      <div class="col-md-2">
-        <label class="form-label">تعداد</label>
-        <input style="background-color: lightgray" id="tadad" type="text" class="form-control" name="tadad" value="0"
-          readonly>
-      </div>
-      <div class="col-md-2">
-        <label class="form-label">سٹاک</label>
-        <input style="background-color: lightgray" class="form-control" type="text" value="<%= Inventory.value %>"
-          readonly>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label class="form-label" id="bKANKAATlabel">بڑا کانٹا کاٹ</label>
-        <input type="number" class="form-control" value="0" id="bKANKAAT" name="bKanKaat">
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label" id="bDanaKaatlabel">بار دانہ کاٹ</label>
-        <input type="number" class="form-control" value="0" id="bDanaKaat" name="bDanaKaat">
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label" id="KamWazanJurmanalabel">کم وزن جرمانہ</label>
-        <input type="number" class="form-control" value="0" id="KamWazanJurmana" name="KamWazanJurmana">
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">ریٹ فی یونٹ</label>
-        <input type="number" class="form-control" id="rate" name="rate" placeholder="e.g. 2500">
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">کمی ریٹ</label>
-        <input type="number" class="form-control" id="KameeRate" name="KameeRate" value="0">
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label" id="Mazdoorilabel">مزدوری</label>
-        <input type="number" class="form-control" name="Mazdoori" id="Mazdoori">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label" id="MazdooriRatelabel">مزدوری ریٹ</label>
-        <input type="number" value="10" class="form-control" id="MazdooriRate" name="MazdooriRate">
-      </div>
-    </div>
-
-    <hr style="border: solid 5px black">
-
-    <div class="text-center">
-      <button type="submit" class="btn btn-custom">Save Sale Order</button>
-    </div>
-  </form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script>
-// Commodity dropdown behavior
-document.getElementById("commodity").addEventListener("change", function() {
-  let commodityVal = document.getElementById("commodity").value;
-
-  const ids = [
-    "bKANKAAT", "bDanaKaat", "KamWazanJurmana",
-    "Mazdoori", "MazdooriRate"
-  ];
-  const labels = [
-    "bKANKAATlabel", "bDanaKaatlabel", "KamWazanJurmanalabel",
-    "Mazdoorilabel", "MazdooriRatelabel"
-  ];
-
-  if (commodityVal === "Bajara") {
-    // hide all
-    ids.forEach(id => document.getElementById(id).style.display = "none");
-    labels.forEach(id => document.getElementById(id).style.display = "none");
-  } else {
-    // show all
-    ids.forEach(id => document.getElementById(id).style.display = "block");
-    labels.forEach(id => document.getElementById(id).style.display = "block");
-  }
-});
-</script>
 <div class="card-body">
   <form id="PurchaseOrder" action="/Sale-Order" method="POST">
     <!-- Buyer & Supplier Info -->
@@ -266,7 +122,7 @@ document.getElementById("commodity").addEventListener("change", function() {
         <input type="text" class="form-control" id="TruckNumber" name="truckNumber"
           onblur="Validate('TruckNumberErr', 'TruckNumber')">
         <span id="TruckNumberErr"></span>
-      </div>
+      </div> 
       <div class="col-md-3">
         <label class="form-label">آرڈر نمبر</label>
         <input style="background-color: lightgray" type="text" class="form-control" id="OrderNumber" name="orderNo"
